@@ -372,12 +372,7 @@ var HelloWorldLayer = cc.Layer.extend({
 					spr.setColor(cc.color(128,200,255));
 					spr.type = "floor_up";
 				}
-				spr.label = new cc.LabelTTF(spr.num, "Arial", 10);
-				spr.label.x = spr.x;
-				spr.label.y = spr.y;
-				spr.label.setString(spr.hp);
 				this.addChild(spr);
-				this.addChild(spr.label);
 				this.terraList.push(spr);
 			} 
 
