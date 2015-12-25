@@ -15,6 +15,10 @@ var HelloWorldScene = cc.Scene.extend({
         var layer = new MapLayer();
 		this.mapLayer = layer;
         this.addChild(layer);
+
+        var layer = new GuiLayer();
+        this.addChild(layer);
+
         this.scheduleUpdate(); 
 		var scene = this;
 

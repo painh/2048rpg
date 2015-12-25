@@ -9,6 +9,8 @@ var OBJECT_IDX_PLAYER = 4;
 var OBJECT_IDX_J_DEKER = 5;
 var OBJECT_IDX_ENEMY = 6;
 
+var CURSOR_SIZE = 16;
+
 function objIDXToType(idx)
 {
     switch(idx)
