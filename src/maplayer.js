@@ -91,8 +91,8 @@ var MapLayer = cc.Layer.extend({
 	{
 		for(var j = 0; j < 10; ++j)
 		{	
-			var x = randomRange(0, (this.stageWidth - this.stageStartX )/ TILE_SIZE) * TILE_SIZE + this.stageStartX;
-			var y = randomRange(0, (this.stageHeight - this.stageStartY) / TILE_SIZE) * TILE_SIZE + this.stageStartY;
+			var x = randomRange(0, 9) * TILE_SIZE;
+			var y = randomRange(0, 9) * TILE_SIZE;
 			var found = false;
 			for(var i in this.objList)
 			{
@@ -175,7 +175,7 @@ var MapLayer = cc.Layer.extend({
         //////////////////////////////
         // 1. super init first
         this._super();
-		this.Init("town");
+		this.Init("default");
 
 	},
 	Init : function(stageName)
@@ -290,6 +290,20 @@ var MapLayer = cc.Layer.extend({
 			this.addChild(spr);
 			this.terraList.push(spr);
 		}
+
+		for(var i in this.terraList)
+		{
+			var obj = this.terraList[i];
+
+			obj.rect = cc.rect(obj.getPositionX() - TILE_SIZE / 2,
+								obj.getPositionY() - TILE_SIZE / 2,
+								TILE_SIZE, TILE_SIZE);
+			if(!obj.label)
+				continue;
+			obj.label.x = obj.x;
+			obj.label.y = obj.y;
+		};
+        
         
         this.setPosition(cc.p(cc.winSize.width  / 2 - TILE_SIZE * 10 / 2 + TILE_SIZE / 2,
                         cc.winSize.height / 2 - TILE_SIZE * 10 / 2 + TILE_SIZE / 2));
@@ -303,6 +317,18 @@ var MapLayer = cc.Layer.extend({
 			player.type = 'player';
 			console.log('player generated!');
 		}
+        
+        
+        this.GenerateNewObj();
+        this.GenerateNewObj();
+        this.GenerateNewObj();
+        this.GenerateNewObj();
+        this.GenerateNewObj();
+        this.GenerateNewObj();
+        this.GenerateNewObj();
+        this.GenerateNewObj();
+        this.GenerateNewObj();
+        this.GenerateNewObj();
 
         return true; 
     },

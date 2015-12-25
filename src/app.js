@@ -70,6 +70,18 @@ var HelloWorldScene = cc.Scene.extend({
 			obj.stopped = false;
 			obj.moved = true;
 		}
+        
+        if(ax < 0)
+            this.mapLayer.objList.sort(function(a, b) {return a.x - b.x});
+        
+        if(ax > 0)
+            this.mapLayer.objList.sort(function(a, b) {return b.x - a.x});
+
+        if(ay < 0)
+            this.mapLayer.objList.sort(function(a, b) {return a.y - b.y});
+
+        if(ay > 0)
+            this.mapLayer.objList.sort(function(a, b) {return b.y - a.y});
 	},
 	keyDown : function(keyCode)
 	{ 
@@ -133,8 +145,8 @@ var HelloWorldScene = cc.Scene.extend({
             obj.moved = false;
 
             //create a rect to represent our green square
-            obj.nextMoveCollisionRect = cc.rect(obj.x + obj.ax - TILE_SIZE / 2, obj.y + obj.ay - TILE_SIZE / 2, TILE_SIZE, TILE_SIZE);
-            var rectHero = obj.nextMoveCollisionRect; 
+            
+            var rectHero = cc.rect(obj.x + obj.ax - TILE_SIZE / 2, obj.y + obj.ay - TILE_SIZE / 2, TILE_SIZE, TILE_SIZE) 
             var hit = false;
 			var stopped = false;
 // 
@@ -153,11 +165,11 @@ var HelloWorldScene = cc.Scene.extend({
                     if(targetObj.stopped)
                     {
                         stopped = true;
-
+// combine two objects
                         if(targetObj.num == obj.num && targetObj.moveAble && targetObj.type == obj.type)
                         {
                             targetObj.num = targetObj.num * 2;
-                            targetObj.label.setString(targetObj.num);
+//                            targetObj.label.setString(targetObj.num);
                             removeObj.push(obj);
                             
                             var scale = cc.ScaleTo.create(0.1, TILE_SIZE * 1.5, TILE_SIZE * 1.5);
@@ -211,11 +223,6 @@ var HelloWorldScene = cc.Scene.extend({
                         terra.hp -= 1;
                         if(terra.hp == 0)
                             removeObj.push(terra);
-                        else
-                        {
-                            if(terra.label)
-                                terra.label.setString(terra.hp);
-                        }
                     }
                     obj.stopped = true;
                 }
@@ -240,16 +247,13 @@ var HelloWorldScene = cc.Scene.extend({
                 var obj = layer.objList[i];
                 obj.ax = 0;
                 obj.ay = 0;
-            }
-                        
+            }                        
         }
 
 		this.prevMovedCnt = movedCnt;
         
         if(layer.stageEnd == true)
             layer.Init(); 
-    } 
-    
-    
+    }    
 });
 
