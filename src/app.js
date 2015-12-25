@@ -140,6 +140,7 @@ var HelloWorldScene = cc.Scene.extend({
 		var movedCnt = 0;
         var removeObj = [];
         var layer = this.mapLayer;
+        var forceMoved = false;
         
 		for(var i in layer.objList)
 		{
@@ -185,6 +186,7 @@ var HelloWorldScene = cc.Scene.extend({
                             var seq = cc.Sequence.create(scale, scale2);
                             targetObj.runAction(seq);
                             targetObj.stopped = false;
+                            forceMoved = true;
                         } 
 
                         if((targetObj.type == 'player' && obj.type == 'enemy') ||
@@ -248,7 +250,7 @@ var HelloWorldScene = cc.Scene.extend({
             layer.removeObject(removeObj[i]);
         removeObj = [];
 
-		if(this.prevMovedCnt != movedCnt && movedCnt == 0)
+		if(forceMoved == false && this.prevMovedCnt != movedCnt && movedCnt == 0)
         {
 			layer.GenerateNewObj();
             for(var i in layer.objList)
