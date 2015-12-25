@@ -87,6 +87,14 @@ var HelloWorldScene = cc.Scene.extend({
 	{ 
 		switch(keyCode)
 		{
+			case cc.KEY['1']:
+				this.mapLayer.Init('default'); 
+				break;
+
+			case cc.KEY['2']:
+				this.mapLayer.Init('town'); 
+				break;
+            
 			case cc.KEY.left:
 				this.moveObjs(-1 * MOVE_STEP, 0); 
 				break;
