@@ -7,6 +7,7 @@ var OBJECT_IDX_FLOOR_DOWN = 2;
 var OBJECT_IDX_FLOOR_UP = 3;
 var OBJECT_IDX_PLAYER = 4;
 var OBJECT_IDX_J_DEKER = 5;
+var OBJECT_IDX_ENEMY = 6;
 
 function objIDXToType(idx)
 {
@@ -17,7 +18,8 @@ function objIDXToType(idx)
         case OBJECT_IDX_FLOOR_DOWN : return "floor_down";
         case OBJECT_IDX_FLOOR_UP : return "floor_up";
         case OBJECT_IDX_PLAYER : return "player";
-        case OBJECT_IDX_J_DEKER : return "j_deker";        
+        case OBJECT_IDX_J_DEKER : return "j_deker";
+        case OBJECT_IDX_ENEMY : return "enemy";           
     }
     throw "invaild idx";
 }
@@ -48,13 +50,19 @@ function objToColor(val)
             
         case OBJECT_IDX_PLAYER:
         case "player":
-            return cc.color(255, 0, 0);
+            return cc.color(119, 178, 85);
             break;
 
         case OBJECT_IDX_J_DEKER:
         case "j_deker":
             return cc.color(247, 232, 188);
             break;
+            
+        case OBJECT_IDX_ENEMY:
+        case "enemy":
+            return cc.color(207, 79, 83);
+            break;
+
     }
     
     throw "invaild val";

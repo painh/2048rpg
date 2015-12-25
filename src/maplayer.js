@@ -120,7 +120,7 @@ var MapLayer = cc.Layer.extend({
 			if(found)
 				continue;
 
-			return this.addObj(x , y, 0, 255, 0, true); 
+			return this.addObj(x , y, true); 
 		}
 		return null;
 	},
@@ -147,11 +147,11 @@ var MapLayer = cc.Layer.extend({
 		}
 		return true;
 	},
-	addObj : function(x, y, r, g, b, moveAble)
+	addObj : function(x, y, moveAble)
 	{
 		var spr = new cc.Sprite(res.blank_png);
 
-		spr.setColor(cc.color(r, g, b));
+		
 		spr.setScale(TILE_SIZE, TILE_SIZE);
 		spr.setPosition(cc.p(x,y));
 		spr.ax = 0;
@@ -161,10 +161,12 @@ var MapLayer = cc.Layer.extend({
 		spr.moved = false;
 		spr.num = 2;
 		spr.type = 'enemy';
+        spr.setColor( objToColor(spr.type) );
 
         spr.label = new cc.LabelTTF(spr.num, "Arial", 10);
 		spr.label.x = spr.x;
 		spr.label.y = spr.y;
+        
         
 		this.addChild(spr);
 		this.objList.push(spr);
