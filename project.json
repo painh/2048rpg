@@ -12,6 +12,7 @@
     "modules" : ["cocos2d"],
 
     "jsList" : [
+        "src/global.js",
         "src/app.js",
         "src/staticmap.js",        
         "src/maplayer.js",
