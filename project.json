@@ -13,6 +13,7 @@
 
     "jsList" : [
         "src/app.js",
+        "src/staticmap.js",        
         "src/maplayer.js",
         "src/resource.js"
     ]

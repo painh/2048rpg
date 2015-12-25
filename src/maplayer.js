@@ -1,3 +1,4 @@
+/* global randomRange */
 var MapLayer = cc.Layer.extend({
 	objList:[], 
 	terraList:[], 
@@ -174,10 +175,10 @@ var MapLayer = cc.Layer.extend({
         //////////////////////////////
         // 1. super init first
         this._super();
-		this.Init();
+		this.Init("town");
 
 	},
-	Init : function()
+	Init : function(stageName)
 	{
 		this.stageWidth = 0;
 		this.stageHeight = 0;
@@ -210,8 +211,12 @@ var MapLayer = cc.Layer.extend({
 		this.terraList = [];
 		this.objList = [];
 		destroyList = [];
-
-		var map = this.generateStage();
+        
+        if(stageName in g_staticMaps)
+            var map = g_staticMaps[stageName];
+        else
+        	var map = this.generateStage();
+            
 		for(var i = 0; i < map.length;++i)
 			for(var j = 0; j < map[i].length;++j)
 			{
