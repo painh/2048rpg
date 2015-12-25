@@ -169,13 +169,14 @@ var HelloWorldScene = cc.Scene.extend({
                         if(targetObj.num == obj.num && targetObj.moveAble && targetObj.type == obj.type)
                         {
                             targetObj.num = targetObj.num * 2;
-//                            targetObj.label.setString(targetObj.num);
+                            targetObj.label.setString(targetObj.num);
                             removeObj.push(obj);
                             
                             var scale = cc.ScaleTo.create(0.1, TILE_SIZE * 1.5, TILE_SIZE * 1.5);
                             var scale2 = cc.ScaleTo.create(0.1, TILE_SIZE, TILE_SIZE);
                             var seq = cc.Sequence.create(scale, scale2);
                             targetObj.runAction(seq);
+                            targetObj.stopped = false;
                         } 
 
                         if((targetObj.type == 'player' && obj.type == 'enemy') ||
