@@ -2,7 +2,7 @@
 0 : breakable block
 1 : blank
 2 : next stage
-3 : 
+3 : player
 */
 var g_staticMaps = {
 default :

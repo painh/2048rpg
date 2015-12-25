@@ -165,12 +165,26 @@ var MapLayer = cc.Layer.extend({
         spr.label = new cc.LabelTTF(spr.num, "Arial", 10);
 		spr.label.x = spr.x;
 		spr.label.y = spr.y;
-
+        
 		this.addChild(spr);
 		this.objList.push(spr);
-        this.addChild(spr.label);        
+        this.addChild(spr.label);
+        
 		return spr;
-	}, 
+	},
+    getObjByType : function(type)
+    {
+        var ret = [];
+        
+        for(var i in this.objList)
+		{
+			var obj = this.objList[i];
+            if(obj.type == type)
+                ret.push(obj);
+        }
+        
+        return ret;    
+    },
     ctor:function () { 
         //////////////////////////////
         // 1. super init first
@@ -226,25 +240,16 @@ var MapLayer = cc.Layer.extend({
 				var num = map[mapHeight - j - 1][i];
 				if(num == 1)
 					continue;
+                    
 				var spr = new cc.Sprite(res.blank_png);
 
 				spr.setScale(TILE_SIZE, TILE_SIZE);
 				spr.setPosition(cc.p(i * TILE_SIZE, j * TILE_SIZE));
 				spr.hp = randomRange(1, 3);
-//				spr.setColor(hpToColor(spr.hp));
-				spr.setColor(cc.color(128,128,128));
-
-				if(num == 2)
-				{
-					spr.setColor(cc.color(255,200,128));
-					spr.type = "floor_down";
-				}
-
-				if(num == 3)
-				{
-					spr.setColor(cc.color(128,200,255));
-					spr.type = "floor_up";
-				}
+                
+                spr.type = objIDXToType(num);
+				spr.setColor(objToColor(num));
+                
 				this.addChild(spr);
 				this.terraList.push(spr);
 			} 
@@ -308,28 +313,17 @@ var MapLayer = cc.Layer.extend({
         this.setPosition(cc.p(cc.winSize.width  / 2 - TILE_SIZE * 10 / 2 + TILE_SIZE / 2,
                         cc.winSize.height / 2 - TILE_SIZE * 10 / 2 + TILE_SIZE / 2));
 
-		this.GenerateNewObj();
-		var player = this.GenerateNewObj();
-		if(player !== null)
-		{
-			player.setColor(cc.color(255, 0, 0));
-			console.log('type', player.type);
-			player.type = 'player';
-			console.log('player generated!');
-		}
+        if(this.getObjByType('player').length == 0)
+        {
+            var player = this.GenerateNewObj();
+            if(player !== null)
+            {
+                player.type = 'player';
+                player.setColor(objToColor(player.type));
+            }                
+        }
         
-        
         this.GenerateNewObj();
-        this.GenerateNewObj();
-        this.GenerateNewObj();
-        this.GenerateNewObj();
-        this.GenerateNewObj();
-        this.GenerateNewObj();
-        this.GenerateNewObj();
-        this.GenerateNewObj();
-        this.GenerateNewObj();
-        this.GenerateNewObj();
-
         return true; 
     },
 });
