@@ -217,10 +217,13 @@ var MapLayer = cc.Layer.extend({
         else
         	var map = this.generateStage();
             
-		for(var i = 0; i < map.length;++i)
-			for(var j = 0; j < map[i].length;++j)
+            
+        var mapHeight = 10;
+            
+		for(var i = 0; i < 10;++i)
+			for(var j = mapHeight - 1; j >= 0;--j)
 			{
-				var num = map[i][j];
+				var num = map[mapHeight - j - 1][i];
 				if(num == 1)
 					continue;
 				var spr = new cc.Sprite(res.blank_png);
@@ -246,72 +249,50 @@ var MapLayer = cc.Layer.extend({
 				this.terraList.push(spr);
 			} 
 
-		for(var i = 0; i < 12;++i)
+		for(var i = 0; i < 10;++i)
 		{
+            //left
 			var spr = new cc.Sprite(res.blank_png); 
 			spr.setScale(TILE_SIZE, TILE_SIZE);
-			spr.setPosition(cc.p(0, -TILE_SIZE + i * TILE_SIZE + TILE_SIZE)); 
+			spr.setPosition(cc.p(-TILE_SIZE, i * TILE_SIZE)); 
 			spr.hp = -1;
 			spr.setColor(hpToColor(spr.hp));
 			this.addChild(spr);
 			this.terraList.push(spr);
 
+            //right
 			var spr = new cc.Sprite(res.blank_png); 
 			spr.setColor(cc.color(128 + i * 10, 128 + j * 10, 128 ));
 			spr.setScale(TILE_SIZE, TILE_SIZE);
-			spr.setPosition(cc.p(TILE_SIZE * 11, -TILE_SIZE + i * TILE_SIZE + TILE_SIZE)); 
+			spr.setPosition(cc.p(TILE_SIZE * 10, i * TILE_SIZE)); 
 			spr.hp = -1;
 			spr.setColor(hpToColor(spr.hp));
 			this.addChild(spr);
 			this.terraList.push(spr);
 
+            //top
 			var spr = new cc.Sprite(res.blank_png); 
 			spr.setColor(cc.color(128 + i * 10, 128 + j * 10, 128 ));
 			spr.setScale(TILE_SIZE, TILE_SIZE);
-			spr.setPosition(cc.p(-TILE_SIZE + i * TILE_SIZE + TILE_SIZE, TILE_SIZE * 11)); 
+			spr.setPosition(cc.p(i * TILE_SIZE, TILE_SIZE * 10)); 
 			spr.hp = -1;
 			spr.setColor(hpToColor(spr.hp));
 			this.addChild(spr);
 			this.terraList.push(spr);
-
+            
+            //bottom
 			var spr = new cc.Sprite(res.blank_png); 
 			spr.setColor(cc.color(128 + i * 10, 128 + j * 10, 128 ));
 			spr.setScale(TILE_SIZE, TILE_SIZE);
-			spr.setPosition(cc.p(-TILE_SIZE + i * TILE_SIZE + TILE_SIZE, -TILE_SIZE)); 
+			spr.setPosition(cc.p(i * TILE_SIZE, -TILE_SIZE)); 
 			spr.hp = -1;
 			spr.setColor(hpToColor(spr.hp));
 			this.addChild(spr);
 			this.terraList.push(spr);
 		}
-
-		for(var i in this.terraList)
-		{
-			var obj = this.terraList[i];
-			this.stageWidth = Math.max(this.stageWidth, obj.x + TILE_SIZE);
-			this.stageHeight = Math.max(this.stageHeight, obj.y + TILE_SIZE);
-		}
-
-		this.stageStartX = (size.width  - this.stageWidth) / 2 + TILE_SIZE / 2; ;
-		this.stageStartY = (size.height - this.stageHeight) / 2 + TILE_SIZE / 2;
-
-		for(var i in this.terraList)
-		{
-			var obj = this.terraList[i];
-			obj.x += this.stageStartX;
-			obj.y += this.stageStartY;
-
-			obj.rect = cc.rect(obj.getPositionX() - TILE_SIZE / 2,
-								obj.getPositionY() - TILE_SIZE / 2,
-								TILE_SIZE, TILE_SIZE);
-			if(!obj.label)
-				continue;
-			obj.label.x = obj.x;
-			obj.label.y = obj.y;
-		};
-
-
-		this.stageWidth += this.stageStartX;
-		this.stageHeight += this.stageStartY; 
+        
+        this.setPosition(cc.p(cc.winSize.width  / 2 - TILE_SIZE * 10 / 2 + TILE_SIZE / 2,
+                        cc.winSize.height / 2 - TILE_SIZE * 10 / 2 + TILE_SIZE / 2));
 
 		this.GenerateNewObj();
 		var player = this.GenerateNewObj();
