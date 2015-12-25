@@ -1,3 +1,4 @@
+/* global cc */
 var TILE_SIZE = 32;
 var MOVE_STEP = 8;
 function randomRange(min, max)
@@ -16,7 +17,7 @@ function hpToColor(hp)
 		case  3 : return cc.color(255, 255, 255);
 	}; 
 }
-var HelloWorldLayer = cc.Layer.extend({
+var MapLayer = cc.Layer.extend({
 	objList:[], 
 	terraList:[], 
 	stageWidth : 0,
@@ -185,124 +186,7 @@ var HelloWorldLayer = cc.Layer.extend({
 
 		this.addChild(spr);
 		this.objList.push(spr);
-        this.addChild(spr.label, 5);
-		var layer = this;
-
-		if(moveAble)
-		{
-			spr.schedule(function()
-			{
-				if(!this.moveAble)
-					return;
-
-				if(this.stopped)
-					return;
-
-				this.moved = false;
-
-				//create a rect to represent our green square
-				var rectHero = cc.rect(this.x + this.ax - TILE_SIZE / 2,
-						this.y + this.ay - TILE_SIZE / 2,
-						TILE_SIZE, TILE_SIZE);
-
-				var hit = false;
-				var stopped = false;
-
-				for(var i in layer.objList)
-				{
-					var spr2 = layer.objList[i];
-					if(this == spr2)
-						continue;
-					var rectEnemy = cc.rect(spr2.getPositionX() - TILE_SIZE / 2,
-							spr2.getPositionY() - TILE_SIZE / 2,
-							TILE_SIZE, TILE_SIZE);
-
-					if(cc.rectIntersectsRect(rectHero, rectEnemy)) 
-					{
-						if(spr2.stopped)
-						{
-							stopped = true;
-
-							if(spr2.num == this.num && spr2.moveAble && spr2.type == this.type)
-							{
-								spr2.num = spr2.num * 2;
-								spr2.label.setString(spr2.num);
-								layer.removeObject(this);
-								
-								var scale = cc.ScaleTo.create(0.1, TILE_SIZE * 1.5, TILE_SIZE * 1.5);
-								var scale2 = cc.ScaleTo.create(0.1, TILE_SIZE, TILE_SIZE);
-								var seq = cc.Sequence.create(scale, scale2);
-								spr2.runAction(seq);
-							} 
-
-							if((spr2.type == 'player' && spr.type == 'enemy') ||
-								(spr.type == 'player' && spr2.type == 'enemy') )
-							{
-								var enemy = spr2.type == 'enemy' ? spr2 : spr;
-								var player = spr2.type == 'player' ? spr2 : spr;
-
-								layer.removeObject(enemy); 
-							}
-
-						}
-
-						hit = true; 
-					}
-
-					if(hit)
-						break;
-				}
-
-				if(stopped)
-				{
-					this.stopped = true;
-	//				this.x = parseInt(this.x / 16) * 16;
-	//				this.y = parseInt(this.y / 16) * 16;
-				} 
-
-				if(!hit)
-				{
-					var terra = layer.checkOnTerra(this.x + this.ax, this.y + this.ay);
-					if(terra === true)
-					{
-						this.y += this.ay;
-						this.x += this.ax; 
-						this.moved = true;
-					}
-					else
-					{
-						if(terra.type == 'floor_down' && this.type == 'player')
-						{
-							layer.stageEnd = true;
-						}
-
-						if(this.type == 'player' && terra.hp > 0)
-						{
-							terra.hp -= 1;
-							if(terra.hp == 0)
-							{
-								layer.removeChild(terra.label);
-								layer.removeChild(terra);
-								var idx = layer.terraList.indexOf(terra);
-								if(idx > -1) 
-									layer.terraList.splice(idx, 1);
-							}
-							else
-							{
-								if(terra.label)
-									terra.label.setString(terra.hp);
-							}
-						}
-						this.stopped = true;
-					}
-				}
-
-				this.label.x = this.x;
-				this.label.y = this.y;
-
-			});
-		}
-
+        this.addChild(spr.label);        
 		return spr;
 	}, 
     ctor:function () { 
@@ -459,7 +343,7 @@ var HelloWorldLayer = cc.Layer.extend({
 
 var HelloWorldScene = cc.Scene.extend({
 	prevMovedCnt : 0,
-	helloLayer : null,
+	mapLayer : null,
 	onEnter:function()
 	{
 		cc.rectIntersectsRect = function (rectA, rectB) {
@@ -470,8 +354,8 @@ var HelloWorldScene = cc.Scene.extend({
 		};
 
         this._super();
-        var layer = new HelloWorldLayer();
-		this.helloLayer = layer;
+        var layer = new MapLayer();
+		this.mapLayer = layer;
         this.addChild(layer);
         this.scheduleUpdate(); 
 		var scene = this;
@@ -507,16 +391,16 @@ var HelloWorldScene = cc.Scene.extend({
 	}, 
 	moveObjs : function(ax, ay)
 	{ 
-		for(var i in this.helloLayer.objList)
+		for(var i in this.mapLayer.objList)
 		{
-			var obj = this.helloLayer.objList[i];
+			var obj = this.mapLayer.objList[i];
 			if(obj.moved)
 				return;
 		}
 
-		for(var i in this.helloLayer.objList)
+		for(var i in this.mapLayer.objList)
 		{
-			var obj = this.helloLayer.objList[i];
+			var obj = this.mapLayer.objList[i];
 			if(!obj.stopped)
 				continue;
 
@@ -576,26 +460,138 @@ var HelloWorldScene = cc.Scene.extend({
 	update : function(dt)
 	{
 		var movedCnt = 0;
-		for(var i in this.helloLayer.objList)
+        var removeObj = [];
+        var layer = this.mapLayer;
+        
+		for(var i in layer.objList)
 		{
-			var obj = this.helloLayer.objList[i];
+			var obj = layer.objList[i];
 			if(!obj.moveAble)
 				continue;
+                
+			if(obj.stopped)
+				continue;
+
+            obj.moved = false;
+
+            //create a rect to represent our green square
+            obj.nextMoveCollisionRect = cc.rect(obj.x + obj.ax - TILE_SIZE / 2, obj.y + obj.ay - TILE_SIZE / 2, TILE_SIZE, TILE_SIZE);
+            var rectHero = obj.nextMoveCollisionRect; 
+            var hit = false;
+			var stopped = false;
+// 
+            for(var i in layer.objList)
+            {
+                var targetObj = layer.objList[i];
+                if(obj == targetObj)
+                    continue;
+                    
+                var rectEnemy = cc.rect(targetObj.getPositionX() - TILE_SIZE / 2,
+                        targetObj.getPositionY() - TILE_SIZE / 2,
+                        TILE_SIZE, TILE_SIZE);
+
+                if(cc.rectIntersectsRect(rectHero, rectEnemy)) 
+                {
+                    if(targetObj.stopped)
+                    {
+                        stopped = true;
+
+                        if(targetObj.num == obj.num && targetObj.moveAble && targetObj.type == obj.type)
+                        {
+                            targetObj.num = targetObj.num * 2;
+                            targetObj.label.setString(targetObj.num);
+                            removeObj.push(obj);
+                            
+                            var scale = cc.ScaleTo.create(0.1, TILE_SIZE * 1.5, TILE_SIZE * 1.5);
+                            var scale2 = cc.ScaleTo.create(0.1, TILE_SIZE, TILE_SIZE);
+                            var seq = cc.Sequence.create(scale, scale2);
+                            targetObj.runAction(seq);
+                        } 
+
+                        if((targetObj.type == 'player' && obj.type == 'enemy') ||
+                            (obj.type == 'player' && targetObj.type == 'enemy') )
+                        {
+                            var enemy = targetObj.type == 'enemy' ? targetObj : obj;
+//                            var player = targetObj.type == 'player' ? targetObj : obj;
+                            
+                            removeObj.push(enemy);
+                        }
+                    }
+
+                    hit = true; 
+                }
+
+				if(hit)
+					break;
+            }
+
+            if(stopped)
+            {
+                obj.stopped = true;
+//				this.x = parseInt(this.x / 16) * 16;
+//				this.y = parseInt(this.y / 16) * 16;
+            } 
+
+            if(!hit)
+            {
+                var terra = layer.checkOnTerra(obj.x + obj.ax, obj.y + obj.ay);
+                if(terra === true)
+                {   
+                    obj.y += obj.ay;
+                    obj.x += obj.ax;
+                    obj.moved = true;
+                }
+                else
+                {
+                    if(terra.type == 'floor_down' && obj.type == 'player')
+                    {
+                        layer.stageEnd = true;
+                    }
+
+                    if(obj.type == 'player' && terra.hp > 0)
+                    {
+                        terra.hp -= 1;
+                        if(terra.hp == 0)
+                            removeObj.push(terra);
+                        else
+                        {
+                            if(terra.label)
+                                terra.label.setString(terra.hp);
+                        }
+                    }
+                    obj.stopped = true;
+                }
+            }
+
+            obj.label.x = obj.x;
+            obj.label.y = obj.y;
 
 			if(obj.moved)
 				movedCnt++;
 		}
+        
+        for(var i in removeObj)
+            layer.removeObject(removeObj[i]);
+        removeObj = [];
 
 		if(this.prevMovedCnt != movedCnt && movedCnt == 0)
-		{
-			this.helloLayer.GenerateNewObj();
-		}
-		this.prevMovedCnt = movedCnt;
+        {
+			layer.GenerateNewObj();
+            for(var i in layer.objList)
+            {
+                var obj = layer.objList[i];
+                obj.ax = 0;
+                obj.ay = 0;
+            }
+                        
+        }
 
-		if(this.helloLayer.stageEnd == true)
-		{
-			this.helloLayer.Init(); 
-		}
-	} 
+		this.prevMovedCnt = movedCnt;
+        
+        if(layer.stageEnd == true)
+            layer.Init(); 
+    } 
+    
+    
 });
 
