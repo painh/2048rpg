@@ -77,6 +77,14 @@ var GuiLayer = cc.Layer.extend({
 		btn.addTouchEventListener(function(target, type) {if(type == ccui.Widget.TOUCH_ENDED) keyInputPatcher.keyDown(cc.KEY.right)}); 
 		this.addChild(btn);
 
+		//inven
+		btn = ccui.Button.create(res.button_normal_png, res.button_press_png, res.button_disable_png);
+		btn.setPosition(cc.p(cc.winSize.width - BTN_SIZE * 2, cy - BTN_SIZE));
+		btn.setTitleText("inven");
+		btn.setTitleColor(cc.color(0,0,0));
+		btn.addTouchEventListener(function(target, type) {if(type == ccui.Widget.TOUCH_ENDED) keyInputPatcher.keyDown(cc.KEY.right)}); 
+		this.addChild(btn);
+
         this.label = new cc.LabelTTF.create("", "Arial", 25, cc.size(cc.winSize.width, 80), cc.TEXT_ALIGNMENT_LEFT, cc.VERTICAL_TEXT_ALIGNMENT_TOP);
 		this.label.setAnchorPoint(cc.p(0, 0));
         this.label.setString("가나다라마바사자차카타파하");

@@ -39,7 +39,7 @@ var g_objectTable =
     blank : {isObject : false, label : "", visible : true, moveAble : false, color : cc.color(0, 0, 0), hp : 1 },
     floor_down : {isObject : true, label : "d", visible : true, moveAble : false, color : cc.color(102, 117, 127), hp : 1 },
     floor_up : {isObject : true, label : "u", visible : true, moveAble : false, color : cc.color(235, 244, 251), hp : 1 },
-    player : {isObject : true, label : "P", visible : true, moveAble : true, color : cc.color(119, 178, 85), hp : 1 },
+    player : {isObject : true, label : "@", visible : true, moveAble : true, color : cc.color(119, 178, 85), hp : 1 },
     j_deker : {isObject : true, label : "J", visible : true, moveAble : false, color : cc.color(247, 232, 188), hp : 1 },
     enemy : {isObject : true, label : "E", visible : true, moveAble : true, color : cc.color(207, 79, 83), hp : 1 },
     unbreakable_block : {isObject : false, label : "#", visible : false, moveAble : false, color : cc.color(128, 128, 128), hp : -1 },
