@@ -12,12 +12,19 @@ var HelloWorldScene = cc.Scene.extend({
 		};
 
         this._super();
-        var layer = new MapLayer();
+        
+        var layer;
+        
+        layer = new BackgroundLayer();
+        this.addChild(layer);
+        
+        layer = new MapLayer();
 		this.mapLayer = layer;
         this.addChild(layer);
 
-        var layer = new GuiLayer();
+        layer = new GuiLayer();
         this.addChild(layer);
+        
 
         this.scheduleUpdate(); 
 		var scene = this;

@@ -2,7 +2,7 @@ function GameObj(layer, x, y, type)
 {
     if(isNumeric(type))
         type = objIDXToType(type);
-    var objProto = g_objectTable[type];
+    var objProto = g_objectTable[type];    
     
     this.layer = layer;
     this.type = type;
@@ -27,10 +27,17 @@ function GameObj(layer, x, y, type)
     this.layer.addChild(this.label);
     
     this.SetPos(x, y);
+    this.SetVisible(objProto.visible);
 }
 
 GameObj.prototype = 
 {
+    SetVisible : function(visible)
+    {
+        this.sprite.setVisible(visible);
+        this.label.setVisible(visible);
+        this.label.setVisible(false);
+    },
     Remove : function()
     {
 		this.layer.removeChild(this.label); 
