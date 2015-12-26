@@ -8,6 +8,7 @@ var OBJECT_IDX_FLOOR_UP = 3;
 var OBJECT_IDX_PLAYER = 4;
 var OBJECT_IDX_J_DEKER = 5;
 var OBJECT_IDX_ENEMY = 6;
+var OBJECT_IDX_UNBREAKABLE_BLOCK = 7;
 
 var CURSOR_SIZE = 16;
 
@@ -21,68 +22,29 @@ function objIDXToType(idx)
         case OBJECT_IDX_FLOOR_UP : return "floor_up";
         case OBJECT_IDX_PLAYER : return "player";
         case OBJECT_IDX_J_DEKER : return "j_deker";
-        case OBJECT_IDX_ENEMY : return "enemy";           
+        case OBJECT_IDX_ENEMY : return "enemy";
+        case OBJECT_IDX_UNBREAKABLE_BLOCK : return "unbreakable_block";       
     }
-    throw "invaild idx";
+    throw "invaild idx " + idx;
 }
 
-function objToColor(val)
+var g_objectTable =
 {
-    switch(val)
-    {
-        case OBJECT_IDX_BLOCK:
-        case "block":
-            return cc.color(0, 132, 180);
-            break;
-            
-        case OBJECT_IDX_BLANK:
-        case "blank":
-            return cc.color(0, 0, 0);
-            break;
-            
-        case OBJECT_IDX_FLOOR_DOWN:
-        case "floor_down":
-            return cc.color(102, 117, 127);
-            break;
-            
-        case OBJECT_IDX_FLOOR_UP:
-        case "floor_up":
-            return cc.color(235, 244, 251);
-            break;
-            
-        case OBJECT_IDX_PLAYER:
-        case "player":
-            return cc.color(119, 178, 85);
-            break;
-
-        case OBJECT_IDX_J_DEKER:
-        case "j_deker":
-            return cc.color(247, 232, 188);
-            break;
-            
-        case OBJECT_IDX_ENEMY:
-        case "enemy":
-            return cc.color(207, 79, 83);
-            break;
-
-    }
-    
-    throw "invaild val";
-}
+    block : {moveAble : false, color : cc.color(0, 132, 180), hp : 1 },
+    blank : {moveAble : false, color : cc.color(0, 0, 0), hp : 1 },
+    floor_down : {moveAble : false, color : cc.color(102, 117, 127), hp : 1 },
+    floor_up : {moveAble : false, color : cc.color(235, 244, 251), hp : 1 },
+    player : {moveAble : true, color : cc.color(119, 178, 85), hp : 1 },
+    j_deker : {moveAble : false, color : cc.color(247, 232, 188), hp : 1 },
+    enemy : {moveAble : true, color : cc.color(207, 79, 83), hp : 1 },
+    unbreakable_block : {moveAble : false, color : cc.color(128, 128, 128), hp : -1 },
+};
 
 function randomRange(min, max)
 {
 	return Math.floor((Math.random() * max) + min);	
 };
 
-function hpToColor(hp)
-{
-	switch(hp)
-	{
-		case -1 : return cc.color(64, 64, 64);
-		case  0 : return cc.color(128, 128, 128);
-		case  1 : return cc.color(160, 160, 160);
-		case  2 : return cc.color(228, 228, 228);
-		case  3 : return cc.color(255, 255, 255);
-	}; 
-}
+function isNumeric(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+};

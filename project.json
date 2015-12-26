@@ -18,6 +18,7 @@
         "src/staticmap.js",        
         "src/maplayer.js",
         "src/guilayer.js",
+        "src/object.js",
         "src/resource.js"
     ]
 }

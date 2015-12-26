@@ -100,7 +100,7 @@ var HelloWorldScene = cc.Scene.extend({
 				break;
                 
 			case cc.KEY['3']:
-				this.mapLayer.GenerateNewObj(); 
+				this.mapLayer.GenerateNewObj("enemy"); 
 				break;                
             
 			case cc.KEY.left:
@@ -173,11 +173,7 @@ var HelloWorldScene = cc.Scene.extend({
                 if(obj == targetObj)
                     continue;
                     
-                var rectEnemy = cc.rect(targetObj.getPositionX() - TILE_SIZE / 2,
-                        targetObj.getPositionY() - TILE_SIZE / 2,
-                        TILE_SIZE, TILE_SIZE);
-
-                if(cc.rectIntersectsRect(rectHero, rectEnemy)) 
+                if(cc.rectIntersectsRect(rectHero, targetObj.rect)) 
                 {
                     if(targetObj.stopped)
                     {
@@ -185,15 +181,9 @@ var HelloWorldScene = cc.Scene.extend({
 // combine two objects
                         if(targetObj.num == obj.num && targetObj.moveAble && targetObj.type == obj.type)
                         {
-                            targetObj.num = targetObj.num * 2;
-                            targetObj.label.setString(targetObj.num);
                             removeObj.push(obj);
                             
-                            var scale = cc.ScaleTo.create(0.1, TILE_SIZE * 1.5, TILE_SIZE * 1.5);
-                            var scale2 = cc.ScaleTo.create(0.1, TILE_SIZE, TILE_SIZE);
-                            var seq = cc.Sequence.create(scale, scale2);
-                            targetObj.runAction(seq);
-                            targetObj.stopped = false;
+                            targetObj.Combined();                            
                             forceMoved = true;
                         } 
 
@@ -225,9 +215,8 @@ var HelloWorldScene = cc.Scene.extend({
             {
                 var terra = layer.checkOnTerra(obj.x + obj.ax, obj.y + obj.ay);
                 if(terra === true)
-                {   
-                    obj.y += obj.ay;
-                    obj.x += obj.ax;
+                {
+                    obj.SetPos(obj.x + obj.ax, obj.y + obj.ay);
                     obj.moved = true;
                 }
                 else
@@ -247,9 +236,6 @@ var HelloWorldScene = cc.Scene.extend({
                 }
             }
 
-            obj.label.x = obj.x;
-            obj.label.y = obj.y;
-
 			if(obj.moved)
 				movedCnt++;
 		}
@@ -260,7 +246,7 @@ var HelloWorldScene = cc.Scene.extend({
 
 		if(forceMoved == false && this.prevMovedCnt != movedCnt && movedCnt == 0)
         {
-			layer.GenerateNewObj();
+			layer.GenerateNewObj("enemy");
             for(var i in layer.objList)
             {
                 var obj = layer.objList[i];
@@ -275,4 +261,3 @@ var HelloWorldScene = cc.Scene.extend({
             layer.Init(); 
     }    
 });
-

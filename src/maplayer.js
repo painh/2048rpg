@@ -87,7 +87,7 @@ var MapLayer = cc.Layer.extend({
 
 		return map;
 	},
-	GenerateNewObj : function()
+	GenerateNewObj : function(type)
 	{
 		for(var j = 0; j < 10; ++j)
 		{	
@@ -120,14 +120,13 @@ var MapLayer = cc.Layer.extend({
 			if(found)
 				continue;
 
-			return this.addObj(x , y, true); 
+			return this.addObj(x , y, true, type); 
 		}
 		return null;
 	},
 	removeObject : function(obj)
 	{
-		this.removeChild(obj.label); 
-		this.removeChild(obj); 
+        obj.Remove();
 		var idx = this.objList.indexOf(obj);
 		if(idx > -1) 
 			this.objList.splice(idx, 1);
@@ -147,32 +146,11 @@ var MapLayer = cc.Layer.extend({
 		}
 		return true;
 	},
-	addObj : function(x, y, moveAble)
+	addObj : function(x, y, moveAble, type)
 	{
-		var spr = new cc.Sprite(res.blank_png);
-
-		
-		spr.setScale(TILE_SIZE, TILE_SIZE);
-		spr.setPosition(cc.p(x,y));
-		spr.ax = 0;
-		spr.ay = 0;
-		spr.stopped = true;
-		spr.moveAble = moveAble;
-		spr.moved = false;
-		spr.num = 2;
-		spr.type = 'enemy';
-        spr.setColor( objToColor(spr.type) );
-
-        spr.label = new cc.LabelTTF(spr.num, "Arial", 10);
-		spr.label.x = spr.x;
-		spr.label.y = spr.y;
-        
-        
-		this.addChild(spr);
-		this.objList.push(spr);
-        this.addChild(spr.label);
-        
-		return spr;
+        var obj = new GameObj(this, x, y, type);
+		this.objList.push(obj);        
+		return obj;
 	},
     getObjByType : function(type)
     {
@@ -200,27 +178,11 @@ var MapLayer = cc.Layer.extend({
 		this.stageHeight = 0;
 		this.stageEnd = false;
 
-        /////////////////////////////
-        // 2. add a menu item with "X" image, which is clicked to quit the program
-        //    you may modify it.
-        // ask the window size
-        var size = cc.winSize;
-
-        /////////////////////////////
-        // 3. add your codes below...
-        // add a label shows "Hello World"
-        // create and initialize a label
-        // add the label as a child to this layer
-
-
-		var startX = 0;
-		var startY = 0;
-
 		var destroyList = this.terraList.slice(0);
 		for(var i in destroyList)
 			this.removeObject(destroyList[i]);
 
-		var destroyList = this.objList.slice(0);
+		destroyList = this.objList.slice(0);
 		for(var i in destroyList)
 			this.removeObject(destroyList[i]);
 
@@ -228,11 +190,11 @@ var MapLayer = cc.Layer.extend({
 		this.objList = [];
 		destroyList = [];
         
+        var map;        
         if(stageName in g_staticMaps)
-            var map = g_staticMaps[stageName];
+            map = g_staticMaps[stageName];
         else
-        	var map = this.generateStage();
-            
+        	map = this.generateStage();
             
         var mapHeight = 10;
             
@@ -243,89 +205,39 @@ var MapLayer = cc.Layer.extend({
 				if(num == 1)
 					continue;
                     
-				var spr = new cc.Sprite(res.blank_png);
-
-				spr.setScale(TILE_SIZE, TILE_SIZE);
-				spr.setPosition(cc.p(i * TILE_SIZE, j * TILE_SIZE));
-				spr.hp = randomRange(1, 3);
+                var obj = new GameObj(this, i * TILE_SIZE, j * TILE_SIZE, objIDXToType(num));
+                obj.hp = randomRange(1, 3);
                 
-                spr.type = objIDXToType(num);
-				spr.setColor(objToColor(num));
-                
-				this.addChild(spr);
-				this.terraList.push(spr);
-			} 
+				this.terraList.push(obj);
+			}
 
 		for(var i = 0; i < 10;++i)
 		{
             //left
-			var spr = new cc.Sprite(res.blank_png); 
-			spr.setScale(TILE_SIZE, TILE_SIZE);
-			spr.setPosition(cc.p(-TILE_SIZE, i * TILE_SIZE)); 
-			spr.hp = -1;
-			spr.setColor(hpToColor(spr.hp));
-			this.addChild(spr);
-			this.terraList.push(spr);
-
+            var obj; 
+            obj = new GameObj(this, -TILE_SIZE, i * TILE_SIZE, OBJECT_IDX_UNBREAKABLE_BLOCK);
+			this.terraList.push(obj);
+            
             //right
-			var spr = new cc.Sprite(res.blank_png); 
-			spr.setColor(cc.color(128 + i * 10, 128 + j * 10, 128 ));
-			spr.setScale(TILE_SIZE, TILE_SIZE);
-			spr.setPosition(cc.p(TILE_SIZE * 10, i * TILE_SIZE)); 
-			spr.hp = -1;
-			spr.setColor(hpToColor(spr.hp));
-			this.addChild(spr);
-			this.terraList.push(spr);
+            obj = new GameObj(this, TILE_SIZE * 10, i * TILE_SIZE, OBJECT_IDX_UNBREAKABLE_BLOCK);
+			this.terraList.push(obj);
 
             //top
-			var spr = new cc.Sprite(res.blank_png); 
-			spr.setColor(cc.color(128 + i * 10, 128 + j * 10, 128 ));
-			spr.setScale(TILE_SIZE, TILE_SIZE);
-			spr.setPosition(cc.p(i * TILE_SIZE, TILE_SIZE * 10)); 
-			spr.hp = -1;
-			spr.setColor(hpToColor(spr.hp));
-			this.addChild(spr);
-			this.terraList.push(spr);
+            obj = new GameObj(this, i * TILE_SIZE, TILE_SIZE * 10, OBJECT_IDX_UNBREAKABLE_BLOCK);
+			this.terraList.push(obj);
             
             //bottom
-			var spr = new cc.Sprite(res.blank_png); 
-			spr.setColor(cc.color(128 + i * 10, 128 + j * 10, 128 ));
-			spr.setScale(TILE_SIZE, TILE_SIZE);
-			spr.setPosition(cc.p(i * TILE_SIZE, -TILE_SIZE)); 
-			spr.hp = -1;
-			spr.setColor(hpToColor(spr.hp));
-			this.addChild(spr);
-			this.terraList.push(spr);
+            obj = new GameObj(this, i * TILE_SIZE, -TILE_SIZE, OBJECT_IDX_UNBREAKABLE_BLOCK);
+			this.terraList.push(obj);
 		}
 
-		for(var i in this.terraList)
-		{
-			var obj = this.terraList[i];
-
-			obj.rect = cc.rect(obj.getPositionX() - TILE_SIZE / 2,
-								obj.getPositionY() - TILE_SIZE / 2,
-								TILE_SIZE, TILE_SIZE);
-			if(!obj.label)
-				continue;
-			obj.label.x = obj.x;
-			obj.label.y = obj.y;
-		};
-        
-        
         this.setPosition(cc.p(cc.winSize.width  / 2 - TILE_SIZE * 10 / 2 + TILE_SIZE / 2,
                         cc.winSize.height / 2 - TILE_SIZE * 10 / 2 + TILE_SIZE / 2));
 
         if(this.getObjByType('player').length == 0)
-        {
-            var player = this.GenerateNewObj();
-            if(player !== null)
-            {
-                player.type = 'player';
-                player.setColor(objToColor(player.type));
-            }                
-        }
+            this.GenerateNewObj("player");
         
-        this.GenerateNewObj();
+        this.GenerateNewObj("enemy");
         return true; 
     },
 });
