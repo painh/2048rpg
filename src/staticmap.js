@@ -1,8 +1,13 @@
 /*
-0 : breakable block
-1 : blank
-2 : next stage
-3 : player
+var OBJECT_IDX_BLOCK = 0;
+var OBJECT_IDX_BLANK = 1;
+var OBJECT_IDX_FLOOR_DOWN = 2;
+var OBJECT_IDX_FLOOR_UP = 3;
+var OBJECT_IDX_PLAYER = 4;
+var OBJECT_IDX_J_DEKER = 5;
+var OBJECT_IDX_ENEMY = 6;
+var OBJECT_IDX_UNBREAKABLE_BLOCK = 7;
+var OBJECT_IDX_BACKTILE = 8;
 */
 var g_staticMaps = {
 default :
@@ -21,16 +26,16 @@ default :
     
 town :
 [
-[1, 0, 1, 1, 1, 1, 1, 1, 0, 1],
-[0, 0, 1, 1, 1, 1, 1, 1, 0, 0],
-[1, 1, 0, 0, 0, 0, 1, 1, 1, 1],
-[1, 1, 1, 1, 0, 1, 1, 1, 1, 1],
+[1, 7, 1, 1, 1, 1, 1, 1, 7, 1],
+[7, 7, 1, 1, 1, 1, 1, 1, 7, 7],
+[1, 1, 7, 7, 7, 7, 1, 1, 1, 1],
+[1, 1, 1, 1, 7, 1, 1, 1, 1, 1],
 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 [1, 1, 1, 1, 3, 1, 1, 1, 1, 1],
 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-[0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-[1, 0, 1, 1, 1, 1, 1, 1, 0, 1]
+[7, 1, 1, 1, 1, 1, 1, 1, 1, 7],
+[1, 7, 1, 1, 1, 1, 1, 1, 7, 1]
 ]
 
     

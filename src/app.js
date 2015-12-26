@@ -48,8 +48,6 @@ var HelloWorldScene = cc.Scene.extend({
 			}
 		}, this);
 
-
-
 		 cc.eventManager.addListener({
             event: cc.EventListener.TOUCH_ONE_BY_ONE,
             swallowTouches: true,
@@ -232,11 +230,13 @@ var HelloWorldScene = cc.Scene.extend({
                     {
                         layer.stageEnd = true;
                     }
+                    
+                    console.log(terra.hp);
 
                     if(obj.type == 'player' && terra.hp > 0)
                     {
                         terra.hp -= 1;
-                        if(terra.hp == 0)
+                        if(terra.hp === 0)
                             removeObj.push(terra);
                     }
                     obj.stopped = true;

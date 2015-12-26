@@ -206,7 +206,12 @@ var MapLayer = cc.Layer.extend({
 					continue;
                     
                 var obj = new GameObj(this, i * TILE_SIZE, j * TILE_SIZE, objIDXToType(num));
-                obj.hp = randomRange(1, 3);
+                
+                if(num == OBJECT_IDX_UNBREAKABLE_BLOCK)
+                {
+                    obj.sprite.setColor(getSimilarColor("light_blue"));
+                    obj.SetVisible(true);
+                }
                 
 				this.terraList.push(obj);
 			}
@@ -232,7 +237,8 @@ var MapLayer = cc.Layer.extend({
 		}
 
         this.setPosition(cc.p(cc.winSize.width  / 2 - TILE_SIZE * 10 / 2 + TILE_SIZE / 2,
-                        cc.winSize.height / 2 - TILE_SIZE * 10 / 2 + TILE_SIZE / 2));
+                        cc.winSize.height - TILE_SIZE * 10 + TILE_SIZE / 2));        
+//                        cc.winSize.height / 2 - TILE_SIZE * 10 / 2 + TILE_SIZE / 2));
 
         if(this.getObjByType('player').length == 0)
             this.GenerateNewObj("player");
