@@ -253,7 +253,9 @@ var HelloWorldScene = cc.Scene.extend({
 
 		if(forceMoved == false && this.prevMovedCnt != movedCnt && movedCnt == 0)
         {
-			layer.GenerateNewObj("enemy");
+            if(layer.stageName !== "town")
+                layer.GenerateNewObj("enemy");
+                
             for(var i in layer.objList)
             {
                 var obj = layer.objList[i];

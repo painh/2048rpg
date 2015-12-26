@@ -1,9 +1,8 @@
 /* global randomRange */
 var MapLayer = cc.Layer.extend({
+    stageName : "",
 	objList:[], 
 	terraList:[], 
-	stageWidth : 0,
-	stageHeight : 0,
 	stageStartX : 0, 
 	stageStartY : 0,
 	stageEnd : false,
@@ -169,13 +168,12 @@ var MapLayer = cc.Layer.extend({
         //////////////////////////////
         // 1. super init first
         this._super();
-		this.Init("default");
+		this.Init("town");
 
 	},
 	Init : function(stageName)
 	{
-		this.stageWidth = 0;
-		this.stageHeight = 0;
+        this.stageName = stageName;
 		this.stageEnd = false;
 
 		var destroyList = this.terraList.slice(0);
@@ -247,7 +245,6 @@ var MapLayer = cc.Layer.extend({
         if(this.getObjByType('player').length == 0)
             this.GenerateNewObj("player");
         
-        this.GenerateNewObj("enemy");
         return true; 
     },
 });
