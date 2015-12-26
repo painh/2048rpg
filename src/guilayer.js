@@ -28,37 +28,6 @@ var GuiLayer = cc.Layer.extend({
         // 1. super init first
         this._super();
 
-        this.label = new cc.LabelTTF.create("", "Arial", 32, cc.size(cc.winSize.width, 80), cc.TEXT_ALIGNMENT_LEFT, cc.VERTICAL_TEXT_ALIGNMENT_TOP);
-		this.label.setAnchorPoint(cc.p(0, 0));
-        this.label.setString("가나다라마바사자차카타파하");
-        this.label.setDimensions(cc.size(cc.winSize.width, 0));
-        this.label.setDimensions(this.label.getContentSize());
-        this.label.setPosition(cc.p(0, cc.winSize.height - this.label.height));
-      
-
-        this.label_background = new cc.Sprite(res.blank_png);
-		this.label_background.setColor(cc.color(0, 0, 0));
-        this.label_background.setOpacity(128);
-        
-        
-        this.label_cursor = new cc.Sprite(res.blank_png);
-        this.label_cursor.setColor(cc.color(255, 255, 255));
-        this.label_cursor.setScale(CURSOR_SIZE, CURSOR_SIZE);
-        this.label_cursor.setScale(CURSOR_SIZE, CURSOR_SIZE);
-        
-        this.addChild(this.label_background);
-        this.addChild(this.label);        
-        this.addChild(this.label_cursor);
-         
-        var action1 = cc.fadeIn(1.0); 
-        var action1Back = action1.reverse();
-        var repeatForever = cc.RepeatForever.create(cc.sequence(action1Back, action1));            
-        this.label_cursor.runAction(repeatForever);
-        
-        
-        this.SetText("가나다라마바사자차카타파하1234");
-        
-        this.ShowTexts(false);
         //this.SetText("");
         
 //         var scrollView  = new ccui.ScrollView();
@@ -107,6 +76,38 @@ var GuiLayer = cc.Layer.extend({
 		btn.setTitleColor(cc.color(0,0,0));
 		btn.addTouchEventListener(function(target, type) {if(type == ccui.Widget.TOUCH_ENDED) keyInputPatcher.keyDown(cc.KEY.right)}); 
 		this.addChild(btn);
+
+        this.label = new cc.LabelTTF.create("", "Arial", 25, cc.size(cc.winSize.width, 80), cc.TEXT_ALIGNMENT_LEFT, cc.VERTICAL_TEXT_ALIGNMENT_TOP);
+		this.label.setAnchorPoint(cc.p(0, 0));
+        this.label.setString("가나다라마바사자차카타파하");
+        this.label.setDimensions(cc.size(cc.winSize.width, 0));
+        this.label.setDimensions(this.label.getContentSize());
+        this.label.setPosition(cc.p(0, cc.winSize.height - this.label.height));
+      
+
+        this.label_background = new cc.Sprite(res.blank_png);
+		this.label_background.setColor(cc.color(0, 0, 0));
+        this.label_background.setOpacity(128);
+        
+        
+        this.label_cursor = new cc.Sprite(res.blank_png);
+        this.label_cursor.setColor(cc.color(255, 255, 255));
+        this.label_cursor.setScale(CURSOR_SIZE, CURSOR_SIZE);
+        this.label_cursor.setScale(CURSOR_SIZE, CURSOR_SIZE);
+        
+        this.addChild(this.label_background);
+        this.addChild(this.label);        
+        this.addChild(this.label_cursor);
+         
+        var action1 = cc.fadeIn(1.0); 
+        var action1Back = action1.reverse();
+        var repeatForever = cc.RepeatForever.create(cc.sequence(action1Back, action1));            
+        this.label_cursor.runAction(repeatForever);
+        
+        
+        this.SetText("가나다라마바사자차카타파하1234");
+        
+        this.ShowTexts(false);
 	},  
     Actived : function()
     {
@@ -127,5 +128,6 @@ var GuiLayer = cc.Layer.extend({
             this.ShowTexts(false);
             return;            
         }
+		this.SetText(this.textList[0]);
     }
 });
