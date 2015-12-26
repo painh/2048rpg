@@ -22,7 +22,7 @@ var HelloWorldScene = cc.Scene.extend({
 		this.mapLayer = layer;
         this.addChild(layer);
 
-        layer = new GuiLayer();
+        g_GUILayer = layer = new GuiLayer();
         this.addChild(layer);
         
 
@@ -94,6 +94,11 @@ var HelloWorldScene = cc.Scene.extend({
 	},
 	keyDown : function(keyCode)
 	{ 
+        if(g_GUILayer.Actived())
+        {
+            g_GUILayer.Next();
+            return;
+        }
 		switch(keyCode)
 		{
 			case cc.KEY['1']:
@@ -200,6 +205,9 @@ var HelloWorldScene = cc.Scene.extend({
                             
                             removeObj.push(enemy);
                         }
+                        
+                        targetObj.OnCollision();
+                        
                     }
 
                     hit = true; 

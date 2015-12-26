@@ -11,7 +11,9 @@ var OBJECT_IDX_ENEMY = 6;
 var OBJECT_IDX_UNBREAKABLE_BLOCK = 7;
 var OBJECT_IDX_BACKTILE = 8;
 
-var CURSOR_SIZE = 16;
+var CURSOR_SIZE = 24;
+
+var g_GUILayer;
 
 function objIDXToType(idx)
 {

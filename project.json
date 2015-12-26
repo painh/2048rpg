@@ -20,6 +20,7 @@
         "src/guilayer.js",
         "src/background.js",
         "src/object.js",
+        "src/j_decker.js",
         "src/resource.js"
     ]
 }

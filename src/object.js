@@ -63,5 +63,16 @@ GameObj.prototype =
         //this.label.setString(this.num);
         this.sprite.runAction(seq);    
         this.stopped = false;            
+    },
+    OnCollision : function()
+    {
+        switch(this.type)
+        {
+            case "j_deker":
+                j_decker();
+                break;    
+            
+        }
     }
+    
 };

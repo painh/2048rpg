@@ -2,7 +2,8 @@
 var GuiLayer = cc.Layer.extend({
     label : null,
     label_background : null,
-    label_cursor : null,
+    label_cursor : null,    
+    textList : [],
     SetText : function(text)
     {
         this.label.setString(text);
@@ -13,7 +14,7 @@ var GuiLayer = cc.Layer.extend({
 		this.label_background.setScale(cc.winSize.width, this.label.height);        
 		this.label_background.setPosition(cc.p(this.label.width / 2, cc.winSize.height - this.label.height / 2));
         
-        this.label_cursor.setPosition(cc.p(this.label.width / 2 - CURSOR_SIZE / 2, cc.winSize.height - this.label.height));
+        this.label_cursor.setPosition(cc.p(this.label.width - CURSOR_SIZE / 2, cc.winSize.height - this.label.height));
                 
     },
     ShowTexts : function(visible)
@@ -41,7 +42,7 @@ var GuiLayer = cc.Layer.extend({
         
         
         this.label_cursor = new cc.Sprite(res.blank_png);
-        this.label_background.setColor(cc.color(255, 255, 255));
+        this.label_cursor.setColor(cc.color(255, 255, 255));
         this.label_cursor.setScale(CURSOR_SIZE, CURSOR_SIZE);
         this.label_cursor.setScale(CURSOR_SIZE, CURSOR_SIZE);
         
@@ -73,5 +74,25 @@ var GuiLayer = cc.Layer.extend({
 //         this.label.setDimensions(this.label.getContentSize());
                 
 //         scrollView.addChild(this.label);        
-	},
+	},  
+    Actived : function()
+    {
+        return this.textList.length != 0;
+    },  
+    AddText : function(text)
+    {
+        this.textList.push(text);
+        this.ShowTexts(true);
+        if(this.textList.length == 1)
+            this.SetText(text);
+    },
+    Next : function()
+    {
+        this.textList.shift();
+        if(this.textList.length == 0)               
+        {
+            this.ShowTexts(false);
+            return;            
+        }
+    }
 });
