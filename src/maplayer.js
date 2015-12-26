@@ -205,7 +205,8 @@ var MapLayer = cc.Layer.extend({
 				if(num == 1)
 					continue;
                     
-                var obj = new GameObj(this, i * TILE_SIZE, j * TILE_SIZE, objIDXToType(num));
+                var type = objIDXToType(num);
+                var obj = new GameObj(this, i * TILE_SIZE, j * TILE_SIZE, type);
                 
                 if(num == OBJECT_IDX_UNBREAKABLE_BLOCK)
                 {
@@ -213,7 +214,10 @@ var MapLayer = cc.Layer.extend({
                     obj.SetVisible(true);
                 }
                 
-				this.terraList.push(obj);
+                if(g_objectTable[type].isObject)
+                    this.objList.push(obj);
+                else                
+				    this.terraList.push(obj);
 			}
 
 		for(var i = 0; i < 10;++i)
