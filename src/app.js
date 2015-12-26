@@ -22,7 +22,7 @@ var HelloWorldScene = cc.Scene.extend({
 		this.mapLayer = layer;
         this.addChild(layer);
 
-        g_GUILayer = layer = new GuiLayer();
+        g_GUILayer = layer = new GuiLayer(this);
         this.addChild(layer);
         
 
@@ -130,27 +130,27 @@ var HelloWorldScene = cc.Scene.extend({
 		}
 
 	},
-	onTouchBegan:function(touch, event) {
-        var pos = touch.getLocation();
-		if(pos.x > 0 && pos.y > 0 && pos.x < 320 && pos.y < 50)
-			this._node.keyDown(cc.KEY.down);
-
-		if(pos.x > 0 && pos.y > 0 && pos.x < 50 && pos.y < 480)
-			this._node.keyDown(cc.KEY.left);
-
-		if(pos.x > 320 - 50 && pos.y > 0 && pos.x < 320 && pos.y < 480)
-			this._node.keyDown(cc.KEY.right);
-
-		if(pos.x > 0 && pos.y > 480 - 50 && pos.x < 320 && pos.y < 480)
-			this._node.keyDown(cc.KEY.up);
-
-        return true;
-    },
-
-    onTouchMoved:function(touch, event) {
-        var pos = touch.getLocation();
-    },
-
+//	onTouchBegan:function(touch, event) {
+//        var pos = touch.getLocation();
+//		if(pos.x > 0 && pos.y > 0 && pos.x < 320 && pos.y < 50)
+//			this._node.keyDown(cc.KEY.down);
+//
+//		if(pos.x > 0 && pos.y > 0 && pos.x < 50 && pos.y < 480)
+//			this._node.keyDown(cc.KEY.left);
+//
+//		if(pos.x > 320 - 50 && pos.y > 0 && pos.x < 320 && pos.y < 480)
+//			this._node.keyDown(cc.KEY.right);
+//
+//		if(pos.x > 0 && pos.y > 480 - 50 && pos.x < 320 && pos.y < 480)
+//			this._node.keyDown(cc.KEY.up);
+//
+//        return true;
+//    },
+//
+//    onTouchMoved:function(touch, event) {
+//        var pos = touch.getLocation();
+//    },
+//
     onTouchEnded:function(touch, event) {
     },
 	update : function(dt)

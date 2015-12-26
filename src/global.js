@@ -12,6 +12,7 @@ var OBJECT_IDX_UNBREAKABLE_BLOCK = 7;
 var OBJECT_IDX_BACKTILE = 8;
 
 var CURSOR_SIZE = 24;
+var BTN_SIZE = 45;
 
 var g_GUILayer;
 

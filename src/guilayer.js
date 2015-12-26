@@ -9,12 +9,12 @@ var GuiLayer = cc.Layer.extend({
         this.label.setString(text);
         this.label.setDimensions(cc.size(cc.winSize.width, 0));
         this.label.setDimensions(this.label.getContentSize());
-        this.label.setPosition(cc.p(0, cc.winSize.height - this.label.height));
+        this.label.setPosition(cc.p(0, cc.winSize.height / 2 - this.label.height / 2));
         
 		this.label_background.setScale(cc.winSize.width, this.label.height);        
-		this.label_background.setPosition(cc.p(this.label.width / 2, cc.winSize.height - this.label.height / 2));
+		this.label_background.setPosition(cc.p(this.label.width / 2, cc.winSize.height / 2));
         
-        this.label_cursor.setPosition(cc.p(this.label.width - CURSOR_SIZE / 2, cc.winSize.height - this.label.height));
+        this.label_cursor.setPosition(cc.p(this.label.width - CURSOR_SIZE / 2, cc.winSize.height / 2 - this.label.height / 2));
                 
     },
     ShowTexts : function(visible)
@@ -23,7 +23,7 @@ var GuiLayer = cc.Layer.extend({
         this.label_background.setVisible(visible);
         this.label_cursor.setVisible(visible);        
     },
-    ctor:function () { 
+    ctor:function (keyInputPatcher) { 
         //////////////////////////////
         // 1. super init first
         this._super();
@@ -74,6 +74,39 @@ var GuiLayer = cc.Layer.extend({
 //         this.label.setDimensions(this.label.getContentSize());
                 
 //         scrollView.addChild(this.label);        
+		var btn;
+		var cx = 70;
+		var cy = 80;
+		//up
+		btn = ccui.Button.create(res.button_normal_png, res.button_press_png, res.button_disable_png);
+		btn.setPosition(cc.p(cx, cy + BTN_SIZE));
+		btn.setTitleText("up");
+		btn.setTitleColor(cc.color(0,0,0));
+		btn.addTouchEventListener(function(target, type) {if(type == ccui.Widget.TOUCH_ENDED) keyInputPatcher.keyDown(cc.KEY.up)}); 
+		this.addChild(btn);
+		//down
+		btn = ccui.Button.create(res.button_normal_png, res.button_press_png, res.button_disable_png);
+		btn.setPosition(cc.p(cx, cy - BTN_SIZE));
+		btn.setTitleText("down");
+		btn.setTitleColor(cc.color(0,0,0));
+		btn.addTouchEventListener(function(target, type) {if(type == ccui.Widget.TOUCH_ENDED) keyInputPatcher.keyDown(cc.KEY.down)}); 
+		this.addChild(btn);
+		//
+		//left
+		btn = ccui.Button.create(res.button_normal_png, res.button_press_png, res.button_disable_png);
+		btn.setPosition(cc.p(cx - BTN_SIZE, cy));
+		btn.setTitleText("left");
+		btn.setTitleColor(cc.color(0,0,0));
+		btn.addTouchEventListener(function(target, type) {if(type == ccui.Widget.TOUCH_ENDED) keyInputPatcher.keyDown(cc.KEY.left)}); 
+		this.addChild(btn);
+		//
+		//right
+		btn = ccui.Button.create(res.button_normal_png, res.button_press_png, res.button_disable_png);
+		btn.setPosition(cc.p(cx + BTN_SIZE, cy));
+		btn.setTitleText("right");
+		btn.setTitleColor(cc.color(0,0,0));
+		btn.addTouchEventListener(function(target, type) {if(type == ccui.Widget.TOUCH_ENDED) keyInputPatcher.keyDown(cc.KEY.right)}); 
+		this.addChild(btn);
 	},  
     Actived : function()
     {
