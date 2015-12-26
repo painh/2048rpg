@@ -32,15 +32,15 @@ function objIDXToType(idx)
 
 var g_objectTable =
 {
-    block : {visible : true, moveAble : false, color : cc.color(0, 132, 180), hp : 1 },
-    blank : {visible : true, moveAble : false, color : cc.color(0, 0, 0), hp : 1 },
-    floor_down : {visible : true, moveAble : false, color : cc.color(102, 117, 127), hp : 1 },
-    floor_up : {visible : true, moveAble : false, color : cc.color(235, 244, 251), hp : 1 },
-    player : {visible : true, moveAble : true, color : cc.color(119, 178, 85), hp : 1 },
-    j_deker : {visible : true, moveAble : false, color : cc.color(247, 232, 188), hp : 1 },
-    enemy : {visible : true, moveAble : true, color : cc.color(207, 79, 83), hp : 1 },
-    unbreakable_block : {visible : false, moveAble : false, color : cc.color(128, 128, 128), hp : -1 },
-    backtile : {visible : true, moveAble : false, color : cc.color(128, 128, 128), hp : -1 },
+    block : {label : "#", visible : true, moveAble : false, color : cc.color(0, 132, 180), hp : 1 },
+    blank : {label : "", visible : true, moveAble : false, color : cc.color(0, 0, 0), hp : 1 },
+    floor_down : {label : "d", visible : true, moveAble : false, color : cc.color(102, 117, 127), hp : 1 },
+    floor_up : {label : "u", visible : true, moveAble : false, color : cc.color(235, 244, 251), hp : 1 },
+    player : {label : "P", visible : true, moveAble : true, color : cc.color(119, 178, 85), hp : 1 },
+    j_deker : {label : "J", visible : true, moveAble : false, color : cc.color(247, 232, 188), hp : 1 },
+    enemy : {label : "E", visible : true, moveAble : true, color : cc.color(207, 79, 83), hp : 1 },
+    unbreakable_block : {label : "", visible : false, moveAble : false, color : cc.color(128, 128, 128), hp : -1 },
+    backtile : {label : "", visible : true, moveAble : false, color : cc.color(128, 128, 128), hp : -1 },
 };
 
 function randomRange(min, max)

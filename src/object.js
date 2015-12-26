@@ -21,7 +21,7 @@ function GameObj(layer, x, y, type)
     this.sprite.setScale(TILE_SIZE, TILE_SIZE);
     this.sprite.setColor(objProto.color);
 
-    this.label = new cc.LabelTTF(this.num, "Arial", 10);
+    this.label = new cc.LabelTTF(objProto.label, "Arial", 20);
     
     this.layer.addChild(this.sprite);
     this.layer.addChild(this.label);
@@ -35,8 +35,7 @@ GameObj.prototype =
     SetVisible : function(visible)
     {
         this.sprite.setVisible(visible);
-        this.label.setVisible(visible);
-        this.label.setVisible(false);
+        this.label.setVisible(visible);        
     },
     Remove : function()
     {
@@ -61,7 +60,7 @@ GameObj.prototype =
         var scale2 = cc.ScaleTo.create(0.1, TILE_SIZE, TILE_SIZE);
         var seq = cc.Sequence.create(scale, scale2);
         this.num = this.num * 2;
-        this.label.setString(this.num);
+        //this.label.setString(this.num);
         this.sprite.runAction(seq);    
         this.stopped = false;            
     }
