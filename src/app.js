@@ -97,11 +97,6 @@ var HelloWorldScene = cc.Scene.extend({
 	},
 	keyDown : function(keyCode)
 	{ 
-        if(g_GUILayer.Actived())
-        {
-            g_GUILayer.Next();
-            return;
-        }
 		switch(keyCode)
 		{
 			case cc.KEY['1']:
@@ -156,6 +151,11 @@ var HelloWorldScene = cc.Scene.extend({
     },
 
     onTouchEnded:function(touch, event) {
+        if(g_GUILayer.Actived())
+        {
+            g_GUILayer.Next();
+            return;
+        }
     },
 	update : function(dt)
 	{

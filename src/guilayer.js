@@ -25,6 +25,18 @@ var GuiLayer = cc.Layer.extend({
     ShowTexts : function(visible)
     {
 		this.widget_text.setVisible(visible);
+		if(visible)
+		{
+			this.widget_mainbtn.setVisible(false);
+			this.widget_inven.setVisible(false);
+			this.widget_equip.setVisible(false);
+		}
+		else
+		{
+			this.widget_mainbtn.setVisible(true);
+			this.widget_inven.setVisible(false);
+			this.widget_equip.setVisible(false);
+		}
     },
 	ShowController : function(visible)
 	{ 
@@ -282,11 +294,7 @@ var GuiLayer = cc.Layer.extend({
 		btn.setColor(cc.color(128, 128, 128));
 		btn.setContentSize(TILE_SIZE, TILE_SIZE);
 		btn.addTouchEventListener(function(target, type) {if(type == ccui.Widget.TOUCH_ENDED) self.ShowInven(false); }); 
-		this.widget_equip.addChild(btn);
-
-
-
-
+		this.widget_equip.addChild(btn); 
 	},  
 	itemSelected : function(btn)
 	{
