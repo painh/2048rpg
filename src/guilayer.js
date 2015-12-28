@@ -6,6 +6,7 @@ var GuiLayer = cc.Layer.extend({
 	widget_text : null,
 	widget_mainbtn : null,
 	widget_inven : null,
+	widget_equip : null,
     textList : [],
 	invenBtns : [],
     SetText : function(text)
@@ -29,10 +30,12 @@ var GuiLayer = cc.Layer.extend({
 	{ 
 		this.widget_mainbtn.setVisible(visible);
 		this.widget_inven.setVisible(!visible);
+		this.widget_equip.setVisible(!visible);
 	},
 	ShowInven : function(visible)
 	{ 
 		this.widget_inven.setVisible(visible);
+		this.widget_equip.setVisible(visible);
 		this.widget_mainbtn.setVisible(!visible); 
 
 		if(!visible)
@@ -49,9 +52,7 @@ var GuiLayer = cc.Layer.extend({
 		{
 			var item = Inventory.itemList[i];
 			var btn = this.invenBtns[i];
-			console.log(btn.setTitleText(item.label));
 			btn.setColor(item.color);
-			console.log(i, btn, item);
 		}
 
 	},
@@ -85,6 +86,9 @@ var GuiLayer = cc.Layer.extend({
 
 		this.widget_inven = new ccui.Widget();
 		this.addChild(this.widget_inven);
+
+		this.widget_equip = new ccui.Widget();
+		this.addChild(this.widget_equip);
 
 		var self = this;
 		var btn;
@@ -177,19 +181,19 @@ var GuiLayer = cc.Layer.extend({
 		//-----------------
 		//inventory
 		var startX = cc.winSize.width - TILE_SIZE * 4 - TILE_SIZE / 2;
-		var startY = cc.winSize.height / 2 - TILE_SIZE / 2;
+		var startY = cc.winSize.height / 2 - TILE_SIZE * 2;
 		var margin = 3;
 		var size = TILE_SIZE + margin;
 
         var spr = new cc.Sprite(res.blank_png);
-		var height = cc.winSize.height - startY;
+		var height = cc.winSize.height / 2;
 		spr.setColor(cc.color(0, 0, 0));
         spr.setOpacity(128);
 		spr.setScale(cc.winSize.width, height);
 		spr.setPosition(cc.p(cc.winSize.width / 2, height / 2)); 
 		this.widget_inven.addChild(spr);
 
-		for(var i = 0; i < 24;++i)
+		for(var i = 0; i < 20;++i)
 		{
 			btn = ccui.Button.create(res.blank_png);
 			var x = i % 4;
@@ -206,8 +210,8 @@ var GuiLayer = cc.Layer.extend({
 		} 
 
 		btn = ccui.Button.create(res.blank_png);
-		var x = 26 % 4;
-		var y = parseInt(26 / 4);
+		var x = 22 % 4;
+		var y = parseInt(22 / 4);
 		btn.setPosition(cc.p(startX + x * size + size / 2, startY - size * y + size/2));
 		btn.setTitleText("close");
 		btn.ignoreContentAdaptWithSize(false);
@@ -216,7 +220,72 @@ var GuiLayer = cc.Layer.extend({
 		btn.addTouchEventListener(function(target, type) {if(type == ccui.Widget.TOUCH_ENDED) self.ShowInven(false); }); 
 		this.widget_inven.addChild(btn);
 
+		//----------------------
+		//equip
+
 		this.ShowInven(true);
+
+        var spr = new cc.Sprite(res.blank_png);
+		startX = cc.winSize.width / 4 * 3;
+		startY = cc.winSize.height / 4 * 3;
+		spr.setColor(cc.color(0, 0, 0));
+        spr.setOpacity(128);
+		spr.setScale(cc.winSize.width / 2, cc.winSize.height / 2);
+		spr.setPosition(cc.p(startX, startY)); 
+		this.widget_equip.addChild(spr);
+
+        var spr = new cc.Sprite(res.equip_png);
+		spr.setPosition(cc.p(startX, startY)); 
+		this.widget_equip.addChild(spr);
+
+
+		// 80 40 - head
+		// 30 113 - weapon
+		// 
+
+		btn = ccui.Button.create(res.blank_png);
+		btn.setPosition(cc.p(238, 444));
+		btn.setTitleText("head");
+		btn.ignoreContentAdaptWithSize(false);
+		btn.setTitleColor(cc.color(255, 255, 255));
+		btn.setColor(cc.color(128, 128, 128));
+		btn.setContentSize(TILE_SIZE, TILE_SIZE);
+		btn.addTouchEventListener(function(target, type) {if(type == ccui.Widget.TOUCH_ENDED) self.ShowInven(false); }); 
+		this.widget_equip.addChild(btn);
+
+		btn = ccui.Button.create(res.blank_png);
+		btn.setPosition(cc.p(187, 365));
+		btn.setTitleText("weapon");
+		btn.ignoreContentAdaptWithSize(false);
+		btn.setTitleColor(cc.color(255, 255, 255));
+		btn.setColor(cc.color(128, 128, 128));
+		btn.setContentSize(TILE_SIZE, TILE_SIZE);
+		btn.addTouchEventListener(function(target, type) {if(type == ccui.Widget.TOUCH_ENDED) self.ShowInven(false); }); 
+		this.widget_equip.addChild(btn);
+
+		btn = ccui.Button.create(res.blank_png);
+		btn.setPosition(cc.p( 238, 394 ));
+		btn.setTitleText("armor");
+		btn.ignoreContentAdaptWithSize(false);
+		btn.setTitleColor(cc.color(255, 255, 255));
+		btn.setColor(cc.color(128, 128, 128));
+		btn.setContentSize(TILE_SIZE, TILE_SIZE);
+		btn.addTouchEventListener(function(target, type) {if(type == ccui.Widget.TOUCH_ENDED) self.ShowInven(false); }); 
+		this.widget_equip.addChild(btn);
+
+		btn = ccui.Button.create(res.blank_png);
+		btn.setPosition(cc.p( 229, 270 ));
+		btn.setTitleText("shoes");
+		btn.ignoreContentAdaptWithSize(false);
+		btn.setTitleColor(cc.color(255, 255, 255));
+		btn.setColor(cc.color(128, 128, 128));
+		btn.setContentSize(TILE_SIZE, TILE_SIZE);
+		btn.addTouchEventListener(function(target, type) {if(type == ccui.Widget.TOUCH_ENDED) self.ShowInven(false); }); 
+		this.widget_equip.addChild(btn);
+
+
+
+
 	},  
 	itemSelected : function(btn)
 	{
