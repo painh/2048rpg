@@ -5,6 +5,7 @@ var GuiLayer = cc.Layer.extend({
     label_cursor : null,    
 	widget_text : null,
 	widget_mainbtn : null,
+	widget_inven : null,
     textList : [],
 	invenBtns : [],
     SetText : function(text)
@@ -27,6 +28,12 @@ var GuiLayer = cc.Layer.extend({
 	ShowController : function(visible)
 	{ 
 		this.widget_mainbtn.setVisible(visible);
+		this.widget_inven.setVisible(!visible);
+	},
+	ShowInven : function(visible)
+	{ 
+		this.widget_inven.setVisible(visible);
+		this.widget_mainbtn.setVisible(!visible); 
 	},
     ctor:function (keyInputPatcher) { 
         //////////////////////////////
@@ -53,6 +60,13 @@ var GuiLayer = cc.Layer.extend({
 		this.widget_mainbtn = new ccui.Widget();
 		this.addChild(this.widget_mainbtn);
 
+		this.widget_text = new ccui.Widget();
+		this.addChild(this.widget_text);
+
+		this.widget_inven = new ccui.Widget();
+		this.addChild(this.widget_inven);
+
+		var self = this;
 		var btn;
 		var cx = 70;
 		var cy = 80;
@@ -92,7 +106,7 @@ var GuiLayer = cc.Layer.extend({
 		btn.setPosition(cc.p(cc.winSize.width - BTN_SIZE * 2, cy - BTN_SIZE));
 		btn.setTitleText("inven");
 		btn.setTitleColor(cc.color(0,0,0));
-		btn.addTouchEventListener(function(target, type) {if(type == ccui.Widget.TOUCH_ENDED) keyInputPatcher.keyDown(cc.KEY.right)}); 
+		btn.addTouchEventListener(function(target, type) {if(type == ccui.Widget.TOUCH_ENDED) self.ShowInven(true); }); 
 		this.widget_mainbtn.addChild(btn);
 
         this.label = new cc.LabelTTF.create("", "Arial", 25, cc.size(cc.winSize.width, 80), cc.TEXT_ALIGNMENT_LEFT, cc.VERTICAL_TEXT_ALIGNMENT_TOP);
@@ -114,8 +128,6 @@ var GuiLayer = cc.Layer.extend({
         this.label_cursor.setScale(CURSOR_SIZE, CURSOR_SIZE);
         
 
-		this.widget_text = new ccui.Widget();
-		this.addChild(this.widget_text);
         this.widget_text.addChild(this.label_background);
         this.widget_text.addChild(this.label);        
         this.widget_text.addChild(this.label_cursor);
@@ -129,18 +141,25 @@ var GuiLayer = cc.Layer.extend({
         this.SetText("가나다라마바사자차카타파하1234");
         
         this.ShowTexts(false);
-//		this.ShowController(false);
+		this.ShowController(false);
 
-		return;
 
 		//-----------------
 		//inventory
-		var self = this;
 		var startX = cc.winSize.width - TILE_SIZE * 4 - TILE_SIZE / 2;
 		var startY = cc.winSize.height / 2 - TILE_SIZE / 2;
 		var margin = 3;
 		var size = TILE_SIZE + margin;
-		for(var i = 0; i < 28;++i)
+
+        var spr = new cc.Sprite(res.blank_png);
+		var height = cc.winSize.height - startY;
+		spr.setColor(cc.color(0, 0, 0));
+        spr.setOpacity(128);
+		spr.setScale(cc.winSize.width, height);
+		spr.setPosition(cc.p(cc.winSize.width / 2, height / 2)); 
+		this.widget_inven.addChild(spr);
+
+		for(var i = 0; i < 24;++i)
 		{
 			btn = ccui.Button.create(res.blank_png);
 			var x = i % 4;
@@ -152,9 +171,20 @@ var GuiLayer = cc.Layer.extend({
 			btn.setContentSize(TILE_SIZE, TILE_SIZE);
 			btn.idx = i;
 			btn.addTouchEventListener(function(target, type) {if(type == ccui.Widget.TOUCH_ENDED) self.itemSelected(this); }); 
-			this.addChild(btn);
-			this.invenBtns.push(btn);
+			this.widget_inven.addChild(btn);
 		} 
+
+		btn = ccui.Button.create(res.blank_png);
+		var x = 26 % 4;
+		var y = parseInt(26 / 4);
+		btn.setPosition(cc.p(startX + x * size + size / 2, startY - size * y + size/2));
+		btn.setTitleText("close");
+		btn.ignoreContentAdaptWithSize(false);
+		btn.setTitleColor(cc.color(0,0,0));
+		btn.setContentSize(TILE_SIZE * 2, TILE_SIZE);
+		btn.addTouchEventListener(function(target, type) {if(type == ccui.Widget.TOUCH_ENDED) self.ShowInven(false); }); 
+		this.widget_inven.addChild(btn);
+
 	},  
 	itemSelected : function(btn)
 	{
