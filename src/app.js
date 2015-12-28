@@ -22,6 +22,9 @@ var HelloWorldScene = cc.Scene.extend({
 		this.mapLayer = layer;
         this.addChild(layer);
 
+		var item = { label : "g", color : cc.color(255, 255, 255) };
+		Inventory.AddItem( item );
+
         g_GUILayer = layer = new GuiLayer(this);
         this.addChild(layer);
         
@@ -54,11 +57,7 @@ var HelloWorldScene = cc.Scene.extend({
             onTouchBegan: this.onTouchBegan,
             onTouchMoved: this.onTouchMoved,
             onTouchEnded: this.onTouchEnded
-        }, this);
-
-
-		var item = { label : "g", color : cc.color(128, 128, 128) };
-		Inventory.AddItem( item );
+        }, this); 
 	}, 
 	moveObjs : function(ax, ay)
 	{ 

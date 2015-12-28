@@ -34,6 +34,26 @@ var GuiLayer = cc.Layer.extend({
 	{ 
 		this.widget_inven.setVisible(visible);
 		this.widget_mainbtn.setVisible(!visible); 
+
+		if(!visible)
+			return;
+
+		for(var i in this.invenBtns)
+		{
+			var btn = this.invenBtns[i];
+			btn.setTitleText("");
+			btn.setColor(cc.color(128, 128, 128));
+		}
+
+		for(var i in Inventory.itemList)
+		{
+			var item = Inventory.itemList[i];
+			var btn = this.invenBtns[i];
+			console.log(btn.setTitleText(item.label));
+			btn.setColor(item.color);
+			console.log(i, btn, item);
+		}
+
 	},
     ctor:function (keyInputPatcher) { 
         //////////////////////////////
@@ -71,41 +91,51 @@ var GuiLayer = cc.Layer.extend({
 		var cx = 70;
 		var cy = 80;
 		//up
-		btn = ccui.Button.create(res.button_normal_png, res.button_press_png, res.button_disable_png);
+		btn = ccui.Button.create(res.blank_png);
 		btn.setPosition(cc.p(cx, cy + BTN_SIZE));
 		btn.setTitleText("up");
-		btn.setTitleColor(cc.color(0,0,0));
+		btn.setTitleColor(cc.color(0,0,0)); 
+		btn.ignoreContentAdaptWithSize(false);
+		btn.setContentSize(BTN_SIZE, BTN_SIZE);
 		btn.addTouchEventListener(function(target, type) {if(type == ccui.Widget.TOUCH_ENDED) keyInputPatcher.keyDown(cc.KEY.up)}); 
 		this.widget_mainbtn.addChild(btn);
 		//down
-		btn = ccui.Button.create(res.button_normal_png, res.button_press_png, res.button_disable_png);
+		btn = ccui.Button.create(res.blank_png);
 		btn.setPosition(cc.p(cx, cy - BTN_SIZE));
 		btn.setTitleText("down");
 		btn.setTitleColor(cc.color(0,0,0));
+		btn.ignoreContentAdaptWithSize(false);
+		btn.setContentSize(BTN_SIZE, BTN_SIZE);
 		btn.addTouchEventListener(function(target, type) {if(type == ccui.Widget.TOUCH_ENDED) keyInputPatcher.keyDown(cc.KEY.down)}); 
 		this.widget_mainbtn.addChild(btn);
 		//
 		//left
-		btn = ccui.Button.create(res.button_normal_png, res.button_press_png, res.button_disable_png);
+		btn = ccui.Button.create(res.blank_png);
 		btn.setPosition(cc.p(cx - BTN_SIZE, cy));
 		btn.setTitleText("left");
 		btn.setTitleColor(cc.color(0,0,0));
+		btn.ignoreContentAdaptWithSize(false);
+		btn.setContentSize(BTN_SIZE, BTN_SIZE);
 		btn.addTouchEventListener(function(target, type) {if(type == ccui.Widget.TOUCH_ENDED) keyInputPatcher.keyDown(cc.KEY.left)}); 
 		this.widget_mainbtn.addChild(btn);
 		//
 		//right
-		btn = ccui.Button.create(res.button_normal_png, res.button_press_png, res.button_disable_png);
+		btn = ccui.Button.create(res.blank_png);
 		btn.setPosition(cc.p(cx + BTN_SIZE, cy));
 		btn.setTitleText("right");
 		btn.setTitleColor(cc.color(0,0,0));
+		btn.ignoreContentAdaptWithSize(false);
+		btn.setContentSize(BTN_SIZE, BTN_SIZE);
 		btn.addTouchEventListener(function(target, type) {if(type == ccui.Widget.TOUCH_ENDED) keyInputPatcher.keyDown(cc.KEY.right)}); 
 		this.widget_mainbtn.addChild(btn);
 
 		//inven
-		btn = ccui.Button.create(res.button_normal_png, res.button_press_png, res.button_disable_png);
+		btn = ccui.Button.create(res.blank_png);
 		btn.setPosition(cc.p(cc.winSize.width - BTN_SIZE * 2, cy - BTN_SIZE));
 		btn.setTitleText("inven");
 		btn.setTitleColor(cc.color(0,0,0));
+		btn.ignoreContentAdaptWithSize(false);
+		btn.setContentSize(BTN_SIZE, BTN_SIZE);
 		btn.addTouchEventListener(function(target, type) {if(type == ccui.Widget.TOUCH_ENDED) self.ShowInven(true); }); 
 		this.widget_mainbtn.addChild(btn);
 
@@ -172,6 +202,7 @@ var GuiLayer = cc.Layer.extend({
 			btn.idx = i;
 			btn.addTouchEventListener(function(target, type) {if(type == ccui.Widget.TOUCH_ENDED) self.itemSelected(this); }); 
 			this.widget_inven.addChild(btn);
+			this.invenBtns.push(btn);
 		} 
 
 		btn = ccui.Button.create(res.blank_png);
@@ -185,6 +216,7 @@ var GuiLayer = cc.Layer.extend({
 		btn.addTouchEventListener(function(target, type) {if(type == ccui.Widget.TOUCH_ENDED) self.ShowInven(false); }); 
 		this.widget_inven.addChild(btn);
 
+		this.ShowInven(true);
 	},  
 	itemSelected : function(btn)
 	{
