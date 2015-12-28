@@ -210,16 +210,22 @@ var GuiLayer = cc.Layer.extend({
 		} 
 
 		btn = ccui.Button.create(res.blank_png);
-		var x = 22 % 4;
-		var y = parseInt(22 / 4);
-		btn.setPosition(cc.p(startX + x * size + size / 2, startY - size * y + size/2));
+		btn.setPosition(cc.p(299, 16));
 		btn.setTitleText("close");
 		btn.ignoreContentAdaptWithSize(false);
 		btn.setTitleColor(cc.color(0,0,0));
-		btn.setContentSize(TILE_SIZE * 2, TILE_SIZE);
+		btn.setContentSize(TILE_SIZE, TILE_SIZE);
 		btn.addTouchEventListener(function(target, type) {if(type == ccui.Widget.TOUCH_ENDED) self.ShowInven(false); }); 
 		this.widget_inven.addChild(btn);
 
+		btn = ccui.Button.create(res.blank_png);
+		btn.setPosition(cc.p(194, 16));
+		btn.setTitleText("equip");
+		btn.ignoreContentAdaptWithSize(false);
+		btn.setTitleColor(cc.color(0,0,0));
+		btn.setContentSize(TILE_SIZE, TILE_SIZE);
+		btn.addTouchEventListener(function(target, type) {if(type == ccui.Widget.TOUCH_ENDED) self.ShowInven(false); }); 
+		this.widget_inven.addChild(btn);
 		//----------------------
 		//equip
 
@@ -237,11 +243,6 @@ var GuiLayer = cc.Layer.extend({
         var spr = new cc.Sprite(res.equip_png);
 		spr.setPosition(cc.p(startX, startY)); 
 		this.widget_equip.addChild(spr);
-
-
-		// 80 40 - head
-		// 30 113 - weapon
-		// 
 
 		btn = ccui.Button.create(res.blank_png);
 		btn.setPosition(cc.p(238, 444));
