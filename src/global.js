@@ -14,7 +14,21 @@ var OBJECT_IDX_BACKTILE = 8;
 var CURSOR_SIZE = 24;
 var BTN_SIZE = 45;
 
+var EQUIP_IDX_HEAD = 0;
+var EQUIP_IDX_BODY = 1;
+var EQUIP_IDX_WEAPON = 2;
+var EQUIP_IDX_SHOES = 3;
+var EQUIP_IDX_MAX = 4;
+
 var g_GUILayer;
+
+var g_playerData = 
+{
+	equip : []
+};
+
+for(var i = 0; i < EQUIP_IDX_MAX; ++i)
+	g_playerData.equip[i] = {label : "", color : cc.color(128, 128, 128) };
 
 function objIDXToType(idx)
 {

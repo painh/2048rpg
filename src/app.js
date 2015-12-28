@@ -130,19 +130,7 @@ var HelloWorldScene = cc.Scene.extend({
 	},
 	onTouchBegan:function(touch, event) {
         var pos = touch.getLocation();
-//		if(pos.x > 0 && pos.y > 0 && pos.x < 320 && pos.y < 50)
-//			this._node.keyDown(cc.KEY.down);
-//
-//		if(pos.x > 0 && pos.y > 0 && pos.x < 50 && pos.y < 480)
-//			this._node.keyDown(cc.KEY.left);
-//
-//		if(pos.x > 320 - 50 && pos.y > 0 && pos.x < 320 && pos.y < 480)
-//			this._node.keyDown(cc.KEY.right);
-//
-//		if(pos.x > 0 && pos.y > 480 - 50 && pos.x < 320 && pos.y < 480)
-//			this._node.keyDown(cc.KEY.up);
-
-		console.log(pos);
+//		console.log(pos);
         return true;
     },
 
