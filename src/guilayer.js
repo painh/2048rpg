@@ -9,6 +9,7 @@ var GuiLayer = cc.Layer.extend({
 	widget_equip : null,
     textList : [],
 	invenBtns : [],
+	selectedBtn : null,
     SetText : function(text)
     {
         this.label.setString(text);
@@ -51,7 +52,9 @@ var GuiLayer = cc.Layer.extend({
 		this.widget_mainbtn.setVisible(!visible); 
 
 		if(!visible)
-			return;
+		{
+//			this.selectedBtn.
+		}
 
 		for(var i in this.invenBtns)
 		{
@@ -298,7 +301,24 @@ var GuiLayer = cc.Layer.extend({
 	},  
 	itemSelected : function(btn)
 	{
-		console.log(btn, btn.idx);
+		if(!(btn.idx in Inventory.itemList))
+			return;
+
+		console.log(btn.idx);
+		if(this.selectedBtn)
+		{
+			if(this.selectedBtn == btn)
+				return;
+
+			this.selectedBtn.stopAllActions(); 
+			this.selectedBtn.setOpacity(255);
+		}
+
+		this.selectedBtn = btn;
+        var action1 = cc.fadeIn(1.0); 
+        var action1Back = action1.reverse();
+        var repeatForever = cc.RepeatForever.create(cc.sequence(action1Back, action1));            
+        btn.runAction(repeatForever);
 	},
     Actived : function()
     {
