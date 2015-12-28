@@ -54,7 +54,11 @@ var HelloWorldScene = cc.Scene.extend({
             onTouchBegan: this.onTouchBegan,
             onTouchMoved: this.onTouchMoved,
             onTouchEnded: this.onTouchEnded
-        }, this)
+        }, this);
+
+
+		var item = { label : "g", color : cc.color(128, 128, 128) };
+		Inventory.AddItem( item );
 	}, 
 	moveObjs : function(ax, ay)
 	{ 

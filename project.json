@@ -21,6 +21,7 @@
         "src/background.js",
         "src/object.js",
         "src/j_decker.js",
+        "src/inven.js",
         "src/resource.js"
     ]
 }
