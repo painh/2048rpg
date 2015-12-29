@@ -364,16 +364,21 @@ var GuiLayer = cc.Layer.extend({
 		this.alert_background.setScale(cc.winSize.width, this.alert_label.height);        
 		this.alert_background.setPosition(cc.p(this.alert_label.width / 2, cc.winSize.height + this.alert_label.height/2));
 
+		this.widget_alert.stopAllActions();
 		this.widget_alert.setPosition(cc.p(0, 0) );
-        var action1 = cc.MoveBy.create(0.5, cc.p(0, -this.alert_label.height));
+        var action1 = cc.MoveTo.create(0.5, cc.p(0, -this.alert_label.height));
         var delay = cc.delayTime(1);
-        var action1Back = action1.reverse();
-		this.widget_alert.runAction(cc.sequence(action1, delay, action1Back));
+//        var action1Back = action1.reverse();
+        var action2 = cc.MoveTo.create(0.5, cc.p(0, 0));
+		this.widget_alert.runAction(cc.sequence(action1, delay, action2));
 	},
 	itemSelected : function(btn)
 	{
 		if(!(btn.idx in Inventory.itemList))
+		{
+			this.Alert("비어 있는 슬롯입니다.");
 			return;
+		}
 
 		if(this.selectedBtn)
 		{
