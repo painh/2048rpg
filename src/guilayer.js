@@ -7,9 +7,30 @@ var GuiLayer = cc.Layer.extend({
 	widget_mainbtn : null,
 	widget_inven : null,
 	widget_equip : null,
+	widget_alert : null,
+	widget_confirm : null,
     textList : [],
 	invenBtns : [],
 	selectedBtn : null,
+	itemDesc_name : null,
+	itemDesc_equipPos : null,
+	alert_label : null,
+	alert_background : null,
+	equpDescText : function(y, label, txt)
+	{
+        label.setString(txt);
+        label.setDimensions(cc.size(0, 0));
+        label.setDimensions(label.getContentSize());
+        label.setPosition(cc.p(cc.winSize.width / 4 -  this.itemDesc_name.width / 2, cc.winSize.height /2 - y));
+		return y + label.height;
+	},
+	SetItemDesc : function(item)
+	{ 
+		var y = this.itemDesc_name.height;
+		y = this.equpDescText(y, this.itemDesc_name, item.name);
+		y = this.equpDescText(y, this.itemDesc_equipPos, item.equipPos);
+
+	},
     SetText : function(text)
     {
         this.label.setString(text);
@@ -105,6 +126,12 @@ var GuiLayer = cc.Layer.extend({
 		this.widget_equip = new ccui.Widget();
 		this.addChild(this.widget_equip);
 
+		this.widget_alert = new ccui.Widget();
+		this.addChild(this.widget_alert);
+
+		this.widget_confirm = new ccui.Widget();
+		this.addChild(this.widget_confirm);
+
 		var self = this;
 		var btn;
 		var cx = 70;
@@ -158,6 +185,7 @@ var GuiLayer = cc.Layer.extend({
 		btn.addTouchEventListener(function(target, type) {if(type == ccui.Widget.TOUCH_ENDED) self.ShowInven(true); }); 
 		this.widget_mainbtn.addChild(btn);
 
+		//text
         this.label = new cc.LabelTTF.create("", "Arial", 25, cc.size(cc.winSize.width, 80), cc.TEXT_ALIGNMENT_LEFT, cc.VERTICAL_TEXT_ALIGNMENT_TOP);
 		this.label.setAnchorPoint(cc.p(0, 0));
         this.label.setString("가나다라마바사자차카타파하");
@@ -241,6 +269,17 @@ var GuiLayer = cc.Layer.extend({
 		btn.setContentSize(TILE_SIZE, TILE_SIZE);
 		btn.addTouchEventListener(function(target, type) {if(type == ccui.Widget.TOUCH_ENDED) self.ShowInven(false); }); 
 		this.widget_inven.addChild(btn);
+		
+        this.itemDesc_name = new cc.LabelTTF.create("", "Arial", 20, cc.size(cc.winSize.width, 80), cc.TEXT_ALIGNMENT_LEFT, cc.VERTICAL_TEXT_ALIGNMENT_TOP);
+		this.itemDesc_name.setAnchorPoint(cc.p(0, 0)); 
+        this.itemDesc_name.setString("가나다라");
+        this.itemDesc_name.setDimensions(cc.size(0, 0));
+        this.itemDesc_name.setDimensions(this.itemDesc_name.getContentSize());
+		this.widget_inven.addChild(this.itemDesc_name);
+
+        this.itemDesc_equipPos = new cc.LabelTTF.create("", "Arial", 20, cc.size(cc.winSize.width, 80), cc.TEXT_ALIGNMENT_LEFT, cc.VERTICAL_TEXT_ALIGNMENT_TOP);
+		this.itemDesc_equipPos.setAnchorPoint(cc.p(0, 0)); 
+		this.widget_inven.addChild(this.itemDesc_equipPos);
 		//----------------------
 		//equip
 
@@ -298,13 +337,44 @@ var GuiLayer = cc.Layer.extend({
 		btn.setContentSize(TILE_SIZE, TILE_SIZE);
 		btn.addTouchEventListener(function(target, type) {if(type == ccui.Widget.TOUCH_ENDED) self.ShowInven(false); }); 
 		this.widget_equip.addChild(btn); 
+
+
+		// alert
+        this.alert_background = new cc.Sprite(res.blank_png);
+		this.alert_background.setColor(cc.color(0, 0, 0));
+        this.alert_background.setOpacity(128);
+		this.widget_alert.addChild(this.alert_background); 
+
+        this.alert_label = new cc.LabelTTF.create("", "Arial", 25, cc.size(cc.winSize.width, 80), cc.TEXT_ALIGNMENT_CENTER, cc.VERTICAL_TEXT_ALIGNMENT_TOP);
+		this.alert_label.setAnchorPoint(cc.p(0, 0));
+        this.alert_label.setString("가나다라마바사자차카타파하");
+        this.alert_label.setDimensions(cc.size(cc.winSize.width, 0));
+        this.alert_label.setDimensions(this.label.getContentSize());
+        this.alert_label.setPosition(cc.p(0, cc.winSize.height - this.label.height));
+		this.widget_alert.addChild(this.alert_label); 
+
 	},  
+	Alert : function(text)
+	{
+        this.alert_label.setString(text);
+        this.alert_label.setDimensions(cc.size(cc.winSize.width, 0));
+        this.alert_label.setDimensions(this.alert_label.getContentSize());
+        this.alert_label.setPosition(cc.p(0, cc.winSize.height));
+        
+		this.alert_background.setScale(cc.winSize.width, this.alert_label.height);        
+		this.alert_background.setPosition(cc.p(this.alert_label.width / 2, cc.winSize.height + this.alert_label.height/2));
+
+		this.widget_alert.setPosition(cc.p(0, 0) );
+        var action1 = cc.MoveBy.create(0.5, cc.p(0, -this.alert_label.height));
+        var delay = cc.delayTime(1);
+        var action1Back = action1.reverse();
+		this.widget_alert.runAction(cc.sequence(action1, delay, action1Back));
+	},
 	itemSelected : function(btn)
 	{
 		if(!(btn.idx in Inventory.itemList))
 			return;
 
-		console.log(btn.idx);
 		if(this.selectedBtn)
 		{
 			if(this.selectedBtn == btn)
@@ -319,6 +389,9 @@ var GuiLayer = cc.Layer.extend({
         var action1Back = action1.reverse();
         var repeatForever = cc.RepeatForever.create(cc.sequence(action1Back, action1));            
         btn.runAction(repeatForever);
+
+		var item = Inventory.itemList[btn.idx];
+		this.SetItemDesc(item);
 	},
     Actived : function()
     {

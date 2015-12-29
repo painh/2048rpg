@@ -22,7 +22,9 @@ var HelloWorldScene = cc.Scene.extend({
 		this.mapLayer = layer;
         this.addChild(layer);
 
-		var item = { label : "g", color : cc.color(255, 255, 255) };
+		var item = { label : "g", color : cc.color(255, 255, 255), name : "여행자의 증표", equipPos : "장착불가" };
+		Inventory.AddItem( item );
+		var item = { label : "g", color : cc.color(255, 128, 128), name : "여행자의 증표2", equipPos : "장착불가" };
 		Inventory.AddItem( item );
 
         g_GUILayer = layer = new GuiLayer(this);
@@ -58,6 +60,7 @@ var HelloWorldScene = cc.Scene.extend({
             onTouchMoved: this.onTouchMoved,
             onTouchEnded: this.onTouchEnded
         }, this); 
+
 	}, 
 	moveObjs : function(ax, ay)
 	{ 
@@ -109,6 +112,10 @@ var HelloWorldScene = cc.Scene.extend({
                 
 			case cc.KEY['3']:
 				this.mapLayer.GenerateNewObj("enemy"); 
+				break;                
+
+			case cc.KEY['4']:
+				g_GUILayer.Alert("경고메시지!");
 				break;                
             
 			case cc.KEY.left:

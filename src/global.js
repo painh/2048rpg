@@ -14,11 +14,20 @@ var OBJECT_IDX_BACKTILE = 8;
 var CURSOR_SIZE = 24;
 var BTN_SIZE = 45;
 
-var EQUIP_IDX_HEAD = 0;
-var EQUIP_IDX_BODY = 1;
-var EQUIP_IDX_WEAPON = 2;
-var EQUIP_IDX_SHOES = 3;
 var EQUIP_IDX_MAX = 4;
+
+function equipIDXToString(idx)
+{
+	switch(idx)
+	{
+		case EQUIP_IDX_HEAD: return "머리";
+		case EQUIP_IDX_BODY: return "몸통";
+		case EQUIP_IDX_WEAPON: return "무기";
+		case EQUIP_IDX_SHOES: return "신발"; 
+	}
+
+	return "장착 불가";
+}
 
 var g_GUILayer;
 
