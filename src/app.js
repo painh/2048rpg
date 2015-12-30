@@ -240,8 +240,6 @@ var HelloWorldScene = cc.Scene.extend({
                         layer.stageEnd = true;
                     }
                     
-                    console.log(terra.hp);
-
                     if(obj.type == 'player' && terra.hp > 0)
                     {
                         terra.hp -= 1;
