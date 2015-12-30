@@ -30,6 +30,16 @@ function equipIDXToString(idx)
 }
 
 var g_GUILayer;
+var g_ConfirmLayer;
+
+var alert = function(text)
+{
+	g_GUILayer.Alert(text);
+}
+var confirm = function(text, funcYes, funcNo)
+{
+	g_ConfirmLayer.Confirm(text, funcYes, funcNo);
+}
 
 var g_playerData = 
 {

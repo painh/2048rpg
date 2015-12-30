@@ -30,6 +30,8 @@ var HelloWorldScene = cc.Scene.extend({
         g_GUILayer = layer = new GuiLayer(this);
         this.addChild(layer);
         
+        g_ConfirmLayer = layer = new ConfirmLayer(this);
+        this.addChild(layer);
 
         this.scheduleUpdate(); 
 		var scene = this;

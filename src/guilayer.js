@@ -8,14 +8,13 @@ var GuiLayer = cc.Layer.extend({
 	widget_inven : null,
 	widget_equip : null,
 	widget_alert : null,
-	widget_confirm : null,
     textList : [],
 	invenBtns : [],
 	selectedBtn : null,
 	itemDesc_name : null,
 	itemDesc_equipPos : null,
 	alert_label : null,
-	alert_background : null,
+	alert_background : null, 
 	equpDescText : function(y, label, txt)
 	{
         label.setString(txt);
@@ -129,8 +128,6 @@ var GuiLayer = cc.Layer.extend({
 		this.widget_alert = new ccui.Widget();
 		this.addChild(this.widget_alert);
 
-		this.widget_confirm = new ccui.Widget();
-		this.addChild(this.widget_confirm);
 
 		var self = this;
 		var btn;
@@ -353,6 +350,8 @@ var GuiLayer = cc.Layer.extend({
         this.alert_label.setPosition(cc.p(0, cc.winSize.height - this.label.height));
 		this.widget_alert.addChild(this.alert_label); 
 
+        this.alert_label.setPosition(cc.p(0, cc.winSize.height));
+		this.alert_background.setPosition(cc.p(this.alert_label.width / 2, cc.winSize.height + this.alert_label.height/2));
 	},  
 	Alert : function(text)
 	{

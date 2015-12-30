@@ -22,6 +22,7 @@
         "src/object.js",
         "src/j_decker.js",
         "src/inven.js",
+        "src/confirm.js",
         "src/resource.js"
     ]
 }
