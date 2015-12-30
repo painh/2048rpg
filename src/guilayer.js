@@ -76,20 +76,7 @@ var GuiLayer = cc.Layer.extend({
 //			this.selectedBtn.
 		}
 
-		for(var i in this.invenBtns)
-		{
-			var btn = this.invenBtns[i];
-			btn.setTitleText("");
-			btn.setColor(cc.color(128, 128, 128));
-		}
-
-		for(var i in Inventory.itemList)
-		{
-			var item = Inventory.itemList[i];
-			var btn = this.invenBtns[i];
-			btn.setColor(item.color);
-		}
-
+		this.RefreshInven(); 
 	},
     ctor:function (keyInputPatcher) { 
         //////////////////////////////
@@ -266,6 +253,15 @@ var GuiLayer = cc.Layer.extend({
 		btn.setContentSize(TILE_SIZE, TILE_SIZE);
 		btn.addTouchEventListener(function(target, type) {if(type == ccui.Widget.TOUCH_ENDED) self.ShowInven(false); }); 
 		this.widget_inven.addChild(btn);
+
+		btn = ccui.Button.create(res.blank_png);
+		btn.setPosition(cc.p(194 + size, 16));
+		btn.setTitleText("drop");
+		btn.ignoreContentAdaptWithSize(false);
+		btn.setTitleColor(cc.color(0,0,0));
+		btn.setContentSize(TILE_SIZE, TILE_SIZE);
+		btn.addTouchEventListener(function(target, type) {if(type == ccui.Widget.TOUCH_ENDED) self.DropItem(); }); 
+		this.widget_inven.addChild(btn);
 		
         this.itemDesc_name = new cc.LabelTTF.create("", "Arial", 20, cc.size(cc.winSize.width, 80), cc.TEXT_ALIGNMENT_LEFT, cc.VERTICAL_TEXT_ALIGNMENT_TOP);
 		this.itemDesc_name.setAnchorPoint(cc.p(0, 0)); 
@@ -417,5 +413,36 @@ var GuiLayer = cc.Layer.extend({
             return;            
         }
 		this.SetText(this.textList[0]);
-    }
+    },
+	DropItem : function()
+	{
+		if(!this.selectedBtn)
+		{
+			alert("아이템이 선택 되어 있지 않습니다. 이 버튼은 아이템을 영구적으로 버립니다.");
+			return;
+		}
+		var idx = this.selectedBtn.idx;
+		var item = Inventory.itemList[idx];
+		var self = this;
+		confirm("정말로 [" + item.name + "] 을 버릴까요?", function() { Inventory.Drop(idx); self.RefreshInven(); }, function() {});
+	},
+	RefreshInven : function()
+	{
+		this.selectedBtn = null;
+		for(var i in this.invenBtns)
+		{
+			var btn = this.invenBtns[i];
+			btn.setTitleText("");
+			btn.setColor(cc.color(128, 128, 128));
+			btn.stopAllActions();
+			btn.setOpacity(255);
+		}
+
+		for(var i in Inventory.itemList)
+		{
+			var item = Inventory.itemList[i];
+			var btn = this.invenBtns[i];
+			btn.setColor(item.color);
+		}
+	},
 });
