@@ -1,9 +1,9 @@
 var Player = 
 {
 	ap : 0,
-	hp : 0,
+	hp : 10,
 	money : 0,
-	pixaxCnt : 0,
+	pickaxCnt : 10,
 	equip : [] 
 };
 

@@ -15,6 +15,8 @@ var GuiLayer = cc.Layer.extend({
 	itemDesc_equipPos : null,
 	alert_label : null,
 	alert_background : null, 
+	label_pickaxCnt : null,
+	label_hp : null,
 	equpDescText : function(y, label, txt)
 	{
         label.setString(txt);
@@ -61,9 +63,11 @@ var GuiLayer = cc.Layer.extend({
     },
 	ShowController : function(visible)
 	{ 
+		console.log("show controller");
 		this.widget_mainbtn.setVisible(visible);
 		this.widget_inven.setVisible(!visible);
 		this.widget_equip.setVisible(!visible);
+		this.widget_text.setVisible(!visible);
 	},
 	ShowInven : function(visible)
 	{ 
@@ -115,6 +119,7 @@ var GuiLayer = cc.Layer.extend({
 		this.widget_alert = new ccui.Widget();
 		this.addChild(this.widget_alert);
 
+		this.ShowController(true);
 
 		var self = this;
 		var btn;
@@ -178,6 +183,17 @@ var GuiLayer = cc.Layer.extend({
 		btn.setContentSize(BTN_SIZE, BTN_SIZE);
 		btn.addTouchEventListener(function(target, type) {if(type == ccui.Widget.TOUCH_ENDED) self.ShowInven(true); }); 
 		this.widget_mainbtn.addChild(btn);
+		//pickax label
+        this.label_pickaxCnt = new cc.LabelTTF.create("", "Arial", 10, cc.size(cc.winSize.width, 80), cc.TEXT_ALIGNMENT_CENTER, cc.VERTICAL_TEXT_ALIGNMENT_TOP);
+        this.label_pickaxCnt.setString("");
+        this.label_pickaxCnt.setPosition(cc.p(cc.winSize.width / 2, cy));
+		this.widget_mainbtn.addChild(this.label_pickaxCnt);
+		//hp label
+        this.label_hp = new cc.LabelTTF.create("", "Arial", 10, cc.size(cc.winSize.width, 80), cc.TEXT_ALIGNMENT_CENTER, cc.VERTICAL_TEXT_ALIGNMENT_TOP);
+        this.label_hp.setString("");
+        this.label_hp.setPosition(cc.p(cc.winSize.width / 2, cy + 10));
+		this.widget_mainbtn.addChild(this.label_hp);
+
 
 		//text
         this.label = new cc.LabelTTF.create("", "Arial", 25, cc.size(cc.winSize.width, 80), cc.TEXT_ALIGNMENT_LEFT, cc.VERTICAL_TEXT_ALIGNMENT_TOP);
@@ -211,10 +227,6 @@ var GuiLayer = cc.Layer.extend({
         
         this.SetText("가나다라마바사자차카타파하1234");
         
-        this.ShowTexts(false);
-		this.ShowController(false);
-
-
 		//-----------------
 		//inventory
 		var startX = cc.winSize.width - TILE_SIZE * 4 - TILE_SIZE / 2;
@@ -283,10 +295,9 @@ var GuiLayer = cc.Layer.extend({
         this.itemDesc_equipPos = new cc.LabelTTF.create("", "Arial", 20, cc.size(cc.winSize.width, 80), cc.TEXT_ALIGNMENT_LEFT, cc.VERTICAL_TEXT_ALIGNMENT_TOP);
 		this.itemDesc_equipPos.setAnchorPoint(cc.p(0, 0)); 
 		this.widget_inven.addChild(this.itemDesc_equipPos);
+
 		//----------------------
 		//equip
-
-		this.ShowInven(true);
 
         var spr = new cc.Sprite(res.blank_png);
 		startX = cc.winSize.width / 4 * 3;
@@ -456,4 +467,10 @@ var GuiLayer = cc.Layer.extend({
 			btn.setColor(item.color);
 		}
 	},
+	RefreshPlayerStat : function()
+	{
+        this.label_hp.setString("hp : " + Player.hp);
+        this.label_pickaxCnt.setString("곡괭이 : " + Player.pickaxCnt);
+//        this.label_pickaxCnt.setPosition(cc.p(cc.winSize.width / 2, cy));
+	}
 });

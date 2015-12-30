@@ -244,6 +244,9 @@ var MapLayer = cc.Layer.extend({
 
         if(this.getObjByType('player').length == 0)
             this.GenerateNewObj("player");
+
+
+		g_GUILayer.RefreshPlayerStat();
         
         return true; 
     },

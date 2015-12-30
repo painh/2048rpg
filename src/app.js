@@ -24,27 +24,23 @@ var HelloWorldScene = cc.Scene.extend({
         layer = new BackgroundLayer();
         this.addChild(layer);
         
+        g_GUILayer = layer = new GuiLayer(this);
         layer = new MapLayer();
 		this.mapLayer = layer;
-        this.addChild(layer);
 
-		var item = { label : "g", color : cc.color(255, 255, 255), name : "여행자의 증표", equipPos : "장착불가" };
-		Inventory.AddItem( item );
-		var item = { label : "g", color : cc.color(255, 128, 128), name : "여행자의 증표2", equipPos : "장착불가" };
-		Inventory.AddItem( item );
-
-        g_GUILayer = layer = new GuiLayer(this);
-        this.addChild(layer);
+        this.addChild(this.mapLayer);
+        this.addChild(g_GUILayer);
         
         g_ConfirmLayer = layer = new ConfirmLayer(this);
         this.addChild(layer);
 
         this.scheduleUpdate(); 
-		var scene = this;
 
-//		cc.SPRITE_DEBUG_DRAW = 1;
-
-
+		var item = { label : "g", color : cc.color(255, 255, 255), name : "여행자의 증표", equipPos : "장착불가" };
+		Inventory.AddItem( item );
+		var item = { label : "g", color : cc.color(255, 128, 128), name : "여행자의 증표2", equipPos : "장착불가" };
+		Inventory.AddItem( item );
+		var self = this;
 
 		cc.eventManager.addListener({
 			event: cc.EventListener.KEYBOARD,
@@ -52,7 +48,7 @@ var HelloWorldScene = cc.Scene.extend({
 				var label = event.getCurrentTarget();
 //				console.log("Key " + keyCode.toString() + " was pressed!");
 //				console.log(cc);
-				scene.keyDown(keyCode);
+				self.keyDown(keyCode);
 
 			},
 			onKeyReleased: function(keyCode, event){
@@ -275,6 +271,7 @@ var HelloWorldScene = cc.Scene.extend({
                 obj.ax = 0;
                 obj.ay = 0;
             }                        
+			g_GUILayer.RefreshPlayerStat();
         }
 
 		this.prevMovedCnt = movedCnt;
