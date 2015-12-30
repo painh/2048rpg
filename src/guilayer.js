@@ -17,12 +17,13 @@ var GuiLayer = cc.Layer.extend({
 	alert_background : null, 
 	label_pickaxCnt : null,
 	label_hp : null,
+	equipBtns : {},
 	equpDescText : function(y, label, txt)
 	{
         label.setString(txt);
         label.setDimensions(cc.size(0, 0));
         label.setDimensions(label.getContentSize());
-        label.setPosition(cc.p(cc.winSize.width / 4 -  this.itemDesc_name.width / 2, cc.winSize.height /2 - y));
+        label.setPosition(cc.p(cc.winSize.width / 4 -  label.width / 2, cc.winSize.height /2 - y));
 		return y + label.height;
 	},
 	SetItemDesc : function(item)
@@ -81,6 +82,7 @@ var GuiLayer = cc.Layer.extend({
 		}
 
 		this.RefreshInven(); 
+		this.RefreshEquip();
 	},
     ctor:function (keyInputPatcher) { 
         //////////////////////////////
@@ -273,7 +275,7 @@ var GuiLayer = cc.Layer.extend({
 		btn.ignoreContentAdaptWithSize(false);
 		btn.setTitleColor(cc.color(0,0,0));
 		btn.setContentSize(TILE_SIZE, TILE_SIZE);
-		btn.addTouchEventListener(function(target, type) {if(type == ccui.Widget.TOUCH_ENDED) self.ShowInven(false); }); 
+		btn.addTouchEventListener(function(target, type) {if(type == ccui.Widget.TOUCH_ENDED) self.Equip(); }); 
 		this.widget_inven.addChild(btn);
 
 		btn = ccui.Button.create(res.blank_png);
@@ -314,22 +316,26 @@ var GuiLayer = cc.Layer.extend({
 
 		btn = ccui.Button.create(res.blank_png);
 		btn.setPosition(cc.p(238, 444));
-		btn.setTitleText("head");
 		btn.ignoreContentAdaptWithSize(false);
 		btn.setTitleColor(cc.color(255, 255, 255));
 		btn.setColor(cc.color(128, 128, 128));
 		btn.setContentSize(TILE_SIZE, TILE_SIZE);
 		btn.addTouchEventListener(function(target, type) {if(type == ccui.Widget.TOUCH_ENDED) self.ShowInven(false); }); 
+		btn.equipPart = "머리";
+		btn.setTitleText(btn.equipPart);
+		this.equipBtns[btn.equipPart] = btn;
 		this.widget_equip.addChild(btn);
 
 		btn = ccui.Button.create(res.blank_png);
 		btn.setPosition(cc.p(187, 365));
-		btn.setTitleText("weapon");
+		btn.equipPart = "무기";
+		btn.setTitleText(btn.equipPart);
 		btn.ignoreContentAdaptWithSize(false);
 		btn.setTitleColor(cc.color(255, 255, 255));
 		btn.setColor(cc.color(128, 128, 128));
 		btn.setContentSize(TILE_SIZE, TILE_SIZE);
 		btn.addTouchEventListener(function(target, type) {if(type == ccui.Widget.TOUCH_ENDED) self.ShowInven(false); }); 
+		this.equipBtns[btn.equipPart] = btn;
 		this.widget_equip.addChild(btn);
 
 		btn = ccui.Button.create(res.blank_png);
@@ -340,6 +346,9 @@ var GuiLayer = cc.Layer.extend({
 		btn.setColor(cc.color(128, 128, 128));
 		btn.setContentSize(TILE_SIZE, TILE_SIZE);
 		btn.addTouchEventListener(function(target, type) {if(type == ccui.Widget.TOUCH_ENDED) self.ShowInven(false); }); 
+		btn.equipPart = "갑옷";
+		btn.setTitleText(btn.equipPart);
+		this.equipBtns[btn.equipPart] = btn;
 		this.widget_equip.addChild(btn);
 
 		btn = ccui.Button.create(res.blank_png);
@@ -350,6 +359,9 @@ var GuiLayer = cc.Layer.extend({
 		btn.setColor(cc.color(128, 128, 128));
 		btn.setContentSize(TILE_SIZE, TILE_SIZE);
 		btn.addTouchEventListener(function(target, type) {if(type == ccui.Widget.TOUCH_ENDED) self.ShowInven(false); }); 
+		btn.equipPart = "신발";
+		btn.setTitleText(btn.equipPart);
+		this.equipBtns[btn.equipPart] = btn;
 		this.widget_equip.addChild(btn); 
 
 
@@ -465,6 +477,17 @@ var GuiLayer = cc.Layer.extend({
 			var item = Inventory.itemList[i];
 			var btn = this.invenBtns[i];
 			btn.setColor(item.color);
+			btn.setTitleText(item.label);
+		}
+	},
+	RefreshEquip : function()
+	{
+		for(var i in this.equipBtns)
+		{
+			var btn = this.equipBtns[i];
+			btn.setColor(Player.equip[btn.equipPart].color);
+			btn.setTitleText(Player.equip[btn.equipPart].label);
+
 		}
 	},
 	RefreshPlayerStat : function()
@@ -472,5 +495,26 @@ var GuiLayer = cc.Layer.extend({
         this.label_hp.setString("hp : " + Player.hp);
         this.label_pickaxCnt.setString("곡괭이 : " + Player.pickaxCnt);
 //        this.label_pickaxCnt.setPosition(cc.p(cc.winSize.width / 2, cy));
-	}
+	},
+	Equip : function()
+	{
+		if(!this.selectedBtn)
+		{
+			alert("아이템이 선택 되어 있지 않습니다. 이 버튼은 아이템을 장착합니다.");
+			return;
+		}
+
+		var idx = this.selectedBtn.idx;
+		var item = Inventory.itemList[idx];
+
+		if(item.equipPos == "장착불가")
+		{
+			alert("장착이 불가능한 아이템입니다.");
+			return;
+		} 
+
+		Player.Equip(idx);
+		this.RefreshInven();
+		this.RefreshEquip();
+	} 
 });

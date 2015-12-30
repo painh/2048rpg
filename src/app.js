@@ -14,6 +14,7 @@ var HelloWorldScene = cc.Scene.extend({
 				cc.rectGetMaxY(rectA) <= cc.rectGetMinY(rectB) ||
 				cc.rectGetMaxY(rectB) <= cc.rectGetMinY(rectA));
 		};
+		Player.Init();
 
         this._super();
         
@@ -36,9 +37,9 @@ var HelloWorldScene = cc.Scene.extend({
 
         this.scheduleUpdate(); 
 
-		var item = { label : "g", color : cc.color(255, 255, 255), name : "여행자의 증표", equipPos : "장착불가" };
+		var item = { label : "g", color : cc.color(255, 255, 255), name : "여행자의 증표", equipPos : "머리" };
 		Inventory.AddItem( item );
-		var item = { label : "g", color : cc.color(255, 128, 128), name : "여행자의 증표2", equipPos : "장착불가" };
+		var item = { label : "g", color : cc.color(255, 128, 128), name : "여행자의 증표2", equipPos : "머리" };
 		Inventory.AddItem( item );
 		var self = this;
 
