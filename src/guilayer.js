@@ -369,12 +369,6 @@ var GuiLayer = cc.Layer.extend({
 	},
 	itemSelected : function(btn)
 	{
-		if(!(btn.idx in Inventory.itemList))
-		{
-			this.Alert("비어 있는 슬롯입니다.");
-			return;
-		}
-
 		if(this.selectedBtn)
 		{
 			if(this.selectedBtn == btn)
@@ -382,7 +376,14 @@ var GuiLayer = cc.Layer.extend({
 
 			this.selectedBtn.stopAllActions(); 
 			this.selectedBtn.setOpacity(255);
+			this.selectedBtn = null;
 		}
+
+		if(!(btn.idx in Inventory.itemList))
+		{
+			this.Alert("비어 있는 슬롯입니다.");
+			return;
+		} 
 
 		this.selectedBtn = btn;
         var action1 = cc.fadeIn(1.0); 
