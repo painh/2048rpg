@@ -31,6 +31,7 @@ function equipIDXToString(idx)
 
 var g_GUILayer;
 var g_ConfirmLayer;
+var g_PlayScene;
 
 var alert = function(text)
 {
@@ -40,14 +41,6 @@ var confirm = function(text, funcYes, funcNo)
 {
 	g_ConfirmLayer.Confirm(text, funcYes, funcNo);
 }
-
-var g_playerData = 
-{
-	equip : []
-};
-
-for(var i = 0; i < EQUIP_IDX_MAX; ++i)
-	g_playerData.equip[i] = {label : "", color : cc.color(128, 128, 128) };
 
 function objIDXToType(idx)
 {

@@ -2,6 +2,10 @@
 var HelloWorldScene = cc.Scene.extend({
 	prevMovedCnt : 0,
 	mapLayer : null,
+	Portal : function()
+	{
+		this.mapLayer.Init("town");
+	},
 	onEnter:function()
 	{
 		cc.rectIntersectsRect = function (rectA, rectB) {
@@ -15,6 +19,8 @@ var HelloWorldScene = cc.Scene.extend({
         
         var layer;
         
+		g_PlayScene = this;
+
         layer = new BackgroundLayer();
         this.addChild(layer);
         

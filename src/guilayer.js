@@ -159,6 +159,16 @@ var GuiLayer = cc.Layer.extend({
 		btn.addTouchEventListener(function(target, type) {if(type == ccui.Widget.TOUCH_ENDED) keyInputPatcher.keyDown(cc.KEY.right)}); 
 		this.widget_mainbtn.addChild(btn);
 
+		//portal
+		btn = ccui.Button.create(res.blank_png);
+		btn.setPosition(cc.p(cc.winSize.width - BTN_SIZE, cy));
+		btn.setTitleText("portal");
+		btn.setTitleColor(cc.color(0,0,0));
+		btn.ignoreContentAdaptWithSize(false);
+		btn.setContentSize(BTN_SIZE, BTN_SIZE);
+		btn.addTouchEventListener(function(target, type) {if(type !== ccui.Widget.TOUCH_ENDED) return; confirm("정말 마을로 돌아갈까요?", function() {g_PlayScene.Portal();}, function(){});}); 
+		this.widget_mainbtn.addChild(btn);
+		//
 		//inven
 		btn = ccui.Button.create(res.blank_png);
 		btn.setPosition(cc.p(cc.winSize.width - BTN_SIZE * 2, cy - BTN_SIZE));

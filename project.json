@@ -23,6 +23,7 @@
         "src/j_decker.js",
         "src/inven.js",
         "src/confirm.js",
+        "src/player.js",
         "src/resource.js"
     ]
 }
