@@ -382,10 +382,10 @@ var GuiLayer = cc.Layer.extend({
 
 		this.widget_alert.stopAllActions();
 		this.widget_alert.setPosition(cc.p(0, 0) );
-        var action1 = cc.MoveTo.create(0.5, cc.p(0, -this.alert_label.height));
+        var action1 = cc.MoveTo.create(0.1, cc.p(0, -this.alert_label.height));
         var delay = cc.delayTime(1);
 //        var action1Back = action1.reverse();
-        var action2 = cc.MoveTo.create(0.5, cc.p(0, 0));
+        var action2 = cc.MoveTo.create(0.1, cc.p(0, 0));
 		this.widget_alert.runAction(cc.sequence(action1, delay, action2));
 	},
 	itemSelected : function(btn)
