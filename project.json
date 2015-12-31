@@ -24,6 +24,7 @@
         "src/inven.js",
         "src/confirm.js",
         "src/player.js",
-        "src/resource.js"
+        "src/resource.js",
+		"src/extern/seedrandom.min.js"
     ]
 }

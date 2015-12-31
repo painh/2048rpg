@@ -168,12 +168,14 @@ var MapLayer = cc.Layer.extend({
         //////////////////////////////
         // 1. super init first
         this._super();
-		this.Init("town");
+		this.Init(Player.stageName);
 
 	},
 	Init : function(stageName)
 	{
         this.stageName = stageName;
+		console.log("seed", stageName);
+		Math.seedrandom(stageName);
 		this.stageEnd = false;
 
 		var destroyList = this.terraList.slice(0);

@@ -49,8 +49,8 @@ var g_objectTable =
 {
     block : {isObject : false, label : "b", visible : true, moveAble : false, color : cc.color(0, 132, 180), hp : 1 },
     blank : {isObject : false, label : "", visible : true, moveAble : false, color : cc.color(0, 0, 0), hp : 1 },
-    floor_down : {isObject : true, label : "d", visible : true, moveAble : false, color : cc.color(102, 117, 127), hp : 1 },
-    floor_up : {isObject : true, label : "u", visible : true, moveAble : false, color : cc.color(235, 244, 251), hp : 1 },
+    floor_down : {isObject : false, label : "d", visible : true, moveAble : false, color : cc.color(102, 117, 127), hp : 1 },
+    floor_up : {isObject : false, label : "u", visible : true, moveAble : false, color : cc.color(235, 244, 251), hp : 1 },
     player : {isObject : true, label : "@", visible : true, moveAble : true, color : cc.color(119, 178, 85), hp : 1 },
     j_deker : {isObject : true, label : "J", visible : true, moveAble : false, color : cc.color(247, 232, 188), hp : 1 },
     enemy : {isObject : true, label : "E", visible : true, moveAble : true, color : cc.color(207, 79, 83), hp : 1 },
@@ -60,7 +60,7 @@ var g_objectTable =
 
 function randomRange(min, max)
 {
-	return Math.floor((Math.random() * max) + min);	
+	return Math.floor((Math.random() * max) + min);
 };
 
 function isNumeric(n) 
@@ -90,5 +90,7 @@ var g_colorTable =
 function getSimilarColor(colorName)
 {
     var color = g_colorTable[colorName];
-    return  color[randomRange(0, color.length - 1)];
+	var range = randomRange(0, color.length - 1);
+    var randomColor =  color[range];
+	return randomColor;
 }

@@ -4,6 +4,7 @@ var Player =
 	hp : 10,
 	money : 0,
 	pickaxCnt : 10,
+	stageName : "town",
 	equip : {},
 	Init : function()
 	{
@@ -33,5 +34,11 @@ var Player =
 			Inventory.itemList.splice(invenIDX, 1);
 
 		Player.equip[item.equipPos] = item; 
+	},
+	NextStage : function()
+	{
+		if(Player.stageName == "town")
+			Player.stageName = 0;
+		Player.stageName++;
 	}
 }; 

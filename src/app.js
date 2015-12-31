@@ -4,7 +4,8 @@ var HelloWorldScene = cc.Scene.extend({
 	mapLayer : null,
 	Portal : function()
 	{
-		this.mapLayer.Init("town");
+		Player.stageName = "town";
+		this.mapLayer.Init(Player.stageName);
 	},
 	onEnter:function()
 	{
@@ -238,8 +239,10 @@ var HelloWorldScene = cc.Scene.extend({
                 }
                 else
                 {
+					console.log(terra);
                     if(terra.type == 'floor_down' && obj.type == 'player')
                     {
+						console.log("down");
                         layer.stageEnd = true;
                     }
                     
@@ -278,6 +281,9 @@ var HelloWorldScene = cc.Scene.extend({
 		this.prevMovedCnt = movedCnt;
         
         if(layer.stageEnd == true)
-            layer.Init(); 
+		{
+			Player.NextStage();
+            layer.Init(Player.stageName); 
+		}
     }    
 });
