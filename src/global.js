@@ -19,6 +19,7 @@ var g_ConfirmLayer;
 var g_PlayScene;
 var g_equipPartList = ["머리", "무기", "갑옷", "신발"];
 
+var g_randomPrefix = '';
 var alert = function(text)
 {
 	g_GUILayer.Alert(text);

@@ -175,7 +175,7 @@ var MapLayer = cc.Layer.extend({
 	{
         this.stageName = stageName;
 		console.log("seed", stageName);
-		Math.seedrandom(stageName);
+		Math.seedrandom(g_randomPrefix+stageName);
 		this.stageEnd = false;
 
 		var destroyList = this.terraList.slice(0);
@@ -250,6 +250,7 @@ var MapLayer = cc.Layer.extend({
 
 		g_GUILayer.RefreshPlayerStat();
         
+		Math.seedrandom();
         return true; 
     },
 });

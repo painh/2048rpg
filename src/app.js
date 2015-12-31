@@ -9,6 +9,8 @@ var HelloWorldScene = cc.Scene.extend({
 	},
 	onEnter:function()
 	{
+		Math.seedrandom();
+		g_randomPrefix = randomRange(0, 9999);
 		cc.rectIntersectsRect = function (rectA, rectB) {
 			return !(cc.rectGetMaxX(rectA) <= cc.rectGetMinX(rectB) ||
 				cc.rectGetMaxX(rectB) <= cc.rectGetMinX(rectA) ||
