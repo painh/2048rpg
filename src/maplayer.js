@@ -55,7 +55,8 @@ var MapLayer = cc.Layer.extend({
 				} 
 		}
 
-		for( var i = 0; i < 10; ++i)
+		var maxCnt = randomRange(5, 30);
+		for( var i = 0; i < maxCnt; ++i)
 		{
 			var stamp = template[randomRange(0, template.length)];
 			var x = randomRange(0 - stamp[0].length, 9 + stamp[0].length);
@@ -70,7 +71,7 @@ var MapLayer = cc.Layer.extend({
 			{
 				var x = randomRange(0, 9);
 				var y = randomRange(0, 9); 
-				printStamp(x + stamp[0].length / 2, y + stamp.length / 2, stamp, map);
+//				printStamp(x + stamp[0].length / 2, y + stamp.length / 2, stamp, map);
 				console.log(type, x, y);
 				if(map[x][y] != 0)
 					continue;
@@ -78,6 +79,13 @@ var MapLayer = cc.Layer.extend({
 				map[x][y] = type;
 				break;
 			}
+		}
+
+		for(var i = 0; i < 2;++i)
+		{
+			var x = randomRange(0, 9);
+			var y = randomRange(0, 9); 
+			map[x][y] = 0;
 		}
 
 		addRandomObj(2);
