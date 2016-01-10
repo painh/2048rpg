@@ -186,7 +186,7 @@ var GuiLayer = cc.Layer.extend({
 		btn.setTitleColor(cc.color(0,0,0));
 		btn.ignoreContentAdaptWithSize(false);
 		btn.setContentSize(BTN_SIZE, BTN_SIZE);
-		btn.addTouchEventListener(function(target, type) {if(type !== ccui.Widget.TOUCH_ENDED) return; confirm("정말 마을로 돌아갈까요?", function() {g_PlayScene.Portal();}, function(){});}); 
+		btn.addTouchEventListener(function(target, type) {if(type !== ccui.Widget.TOUCH_ENDED) return; confirm("정말 마을로 돌아갈까요?(마을로 돌아가면, 곡괭이를 보충 할 수 있습니다.)", function() {g_PlayScene.Portal();}, function(){});}); 
 		this.widget_mainbtn.addChild(btn);
 		//
 		//inven
