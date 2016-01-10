@@ -241,16 +241,15 @@ var HelloWorldScene = cc.Scene.extend({
                 }
                 else
                 {
-					console.log(terra);
                     if(terra.type == 'floor_down' && obj.type == 'player')
                     {
-						console.log("down");
                         layer.stageEnd = true;
                     }
-                    
-                    if(obj.type == 'player' && terra.hp > 0)
+					else if(obj.type == 'player' && terra.hp > 0 && Player.pickaxCnt > 0)
                     {
                         terra.hp -= 1;
+						Player.pickaxCnt--;
+						g_GUILayer.RefreshPlayerStat();
                         if(terra.hp === 0)
                             removeObj.push(terra);
                     }
