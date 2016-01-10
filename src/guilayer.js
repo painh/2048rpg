@@ -20,6 +20,7 @@ var GuiLayer = cc.Layer.extend({
 	status_ap : null,
 	status_dp : null, 
 	label_pickaxCnt : null,
+	label_stageName : null,
 	label_hp : null,
 	equipBtns : {},
 	equpDescText : function(y, label, txt)
@@ -207,6 +208,11 @@ var GuiLayer = cc.Layer.extend({
         this.label_hp.setString("");
         this.label_hp.setPosition(cc.p(cc.winSize.width / 2, cy + 10));
 		this.widget_mainbtn.addChild(this.label_hp);
+		//hp label
+        this.label_stageName = new cc.LabelTTF.create("", "Arial", 10, cc.size(cc.winSize.width, 80), cc.TEXT_ALIGNMENT_CENTER, cc.VERTICAL_TEXT_ALIGNMENT_TOP);
+        this.label_stageName.setString("");
+        this.label_stageName.setPosition(cc.p(cc.winSize.width / 2, cy + 20));
+		this.widget_mainbtn.addChild(this.label_stageName);
 
 
 		//text
@@ -536,6 +542,11 @@ var GuiLayer = cc.Layer.extend({
 	{
         this.label_hp.setString("hp : " + Player.hp);
         this.label_pickaxCnt.setString("곡괭이 : " + Player.pickaxCnt);
+
+		if(Player.stageName == "town")
+			this.label_stageName.setString("마을");
+		else
+			this.label_stageName.setString(Player.stageName + " 층");
 //        this.label_pickaxCnt.setPosition(cc.p(cc.winSize.width / 2, cy));
 	},
 	Equip : function()
