@@ -245,13 +245,20 @@ var HelloWorldScene = cc.Scene.extend({
                     {
                         layer.stageEnd = true;
                     }
-					else if(obj.type == 'player' && terra.hp > 0 && Player.pickaxCnt > 0)
+					else if(obj.type == 'player' && terra.hp > 0)
                     {
-                        terra.hp -= 1;
-						Player.pickaxCnt--;
-						g_GUILayer.RefreshPlayerStat();
-                        if(terra.hp === 0)
-                            removeObj.push(terra);
+						if(Player.pickaxCnt > 0)
+						{
+							terra.hp -= 1;
+							Player.pickaxCnt--;
+							g_GUILayer.RefreshPlayerStat();
+							if(terra.hp === 0)
+								removeObj.push(terra);
+						}
+						else
+						{
+							alert("곡괭이가 없어 블럭을 부술 수 없습니다.");
+						}
                     }
                     obj.stopped = true;
                 }
