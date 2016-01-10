@@ -253,8 +253,10 @@ var MapLayer = cc.Layer.extend({
 //                        cc.winSize.height / 2 - TILE_SIZE * 10 / 2 + TILE_SIZE / 2));
 
         if(this.getObjByType('player').length == 0)
-            this.GenerateNewObj("player");
+            this.GenerateNewObj("player"); 
 
+		if(stageName == "town")
+			Player.pickaxCnt = DEFAULT_PICKAX_CNT; 
 
 		g_GUILayer.RefreshPlayerStat();
         

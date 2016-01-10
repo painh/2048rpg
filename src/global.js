@@ -20,6 +20,9 @@ var g_PlayScene;
 var g_equipPartList = ["머리", "무기", "갑옷", "신발"];
 
 var g_randomPrefix = '';
+
+var DEFAULT_PICKAX_CNT = 20;
+
 var alert = function(text)
 {
 	g_GUILayer.Alert(text);
