@@ -72,7 +72,6 @@ var MapLayer = cc.Layer.extend({
 				var x = randomRange(0, 9);
 				var y = randomRange(0, 9); 
 //				printStamp(x + stamp[0].length / 2, y + stamp.length / 2, stamp, map);
-				console.log(type, x, y);
 				if(map[x][y] != 0)
 					continue;
 
