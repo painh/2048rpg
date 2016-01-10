@@ -301,7 +301,7 @@ var GuiLayer = cc.Layer.extend({
 		
         this.itemDesc_name = new cc.LabelTTF.create("", "Arial", 20, cc.size(cc.winSize.width, 80), cc.TEXT_ALIGNMENT_LEFT, cc.VERTICAL_TEXT_ALIGNMENT_TOP);
 		this.itemDesc_name.setAnchorPoint(cc.p(0, 0)); 
-        this.itemDesc_name.setString("가나다라");
+        this.itemDesc_name.setString("");
         this.itemDesc_name.setDimensions(cc.size(0, 0));
         this.itemDesc_name.setDimensions(this.itemDesc_name.getContentSize());
 		this.widget_inven.addChild(this.itemDesc_name);
