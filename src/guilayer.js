@@ -8,6 +8,7 @@ var GuiLayer = cc.Layer.extend({
 	widget_inven : null,
 	widget_equip : null,
 	widget_alert : null,
+	widget_status : null,
     textList : [],
 	invenBtns : [],
 	selectedBtn : null,
@@ -15,6 +16,9 @@ var GuiLayer = cc.Layer.extend({
 	itemDesc_equipPos : null,
 	alert_label : null,
 	alert_background : null, 
+	status_hp : null,
+	status_ap : null,
+	status_dp : null, 
 	label_pickaxCnt : null,
 	label_hp : null,
 	equipBtns : {},
@@ -54,12 +58,14 @@ var GuiLayer = cc.Layer.extend({
 			this.widget_mainbtn.setVisible(false);
 			this.widget_inven.setVisible(false);
 			this.widget_equip.setVisible(false);
+			this.widget_status.setVisible(false);
 		}
 		else
 		{
 			this.widget_mainbtn.setVisible(true);
 			this.widget_inven.setVisible(false);
 			this.widget_equip.setVisible(false);
+			this.widget_status.setVisible(false);
 		}
     },
 	ShowController : function(visible)
@@ -69,11 +75,13 @@ var GuiLayer = cc.Layer.extend({
 		this.widget_inven.setVisible(!visible);
 		this.widget_equip.setVisible(!visible);
 		this.widget_text.setVisible(!visible);
+		this.widget_status.setVisible(!visible);
 	},
 	ShowInven : function(visible)
 	{ 
 		this.widget_inven.setVisible(visible);
 		this.widget_equip.setVisible(visible);
+		this.widget_status.setVisible(visible);
 		this.widget_mainbtn.setVisible(!visible); 
 
 		if(!visible)
@@ -83,6 +91,7 @@ var GuiLayer = cc.Layer.extend({
 
 		this.RefreshInven(); 
 		this.RefreshEquip();
+		this.RefreshStatus();
 	},
     ctor:function (keyInputPatcher) { 
         //////////////////////////////
@@ -120,6 +129,9 @@ var GuiLayer = cc.Layer.extend({
 
 		this.widget_alert = new ccui.Widget();
 		this.addChild(this.widget_alert);
+
+		this.widget_status = new ccui.Widget();
+		this.addChild(this.widget_status);
 
 		this.ShowController(true);
 
@@ -364,6 +376,30 @@ var GuiLayer = cc.Layer.extend({
 		this.equipBtns[btn.equipPart] = btn;
 		this.widget_equip.addChild(btn); 
 
+		// status
+        var spr = new cc.Sprite(res.blank_png);
+		var height = cc.winSize.height / 2;
+		spr.setColor(cc.color(0, 0, 0));
+        spr.setOpacity(128);
+		spr.setScale(cc.winSize.width / 2, cc.winSize.height / 2);
+		spr.setPosition(cc.p(cc.winSize.width / 4 * 1, cc.winSize.height / 4 * 3)); 
+		this.widget_status.addChild(spr);
+
+        this.status_hp = new cc.LabelTTF.create("hp label", "Arial", 25, cc.size(cc.winSize.width, 80), cc.TEXT_ALIGNMENT_LEFT, cc.VERTICAL_TEXT_ALIGNMENT_TOP);
+		this.status_hp.setAnchorPoint(cc.p(0, 0));
+		this.status_hp.setPosition(cc.p(10, cc.winSize.height - 80 - 20));
+		this.widget_status.addChild(this.status_hp);
+
+        this.status_ap = new cc.LabelTTF.create("ap label", "Arial", 25, cc.size(cc.winSize.width, 80), cc.TEXT_ALIGNMENT_LEFT, cc.VERTICAL_TEXT_ALIGNMENT_TOP);
+		this.status_ap.setAnchorPoint(cc.p(0, 0));
+		this.status_ap.setPosition(cc.p(10, cc.winSize.height - 80 - 40));
+		this.widget_status.addChild(this.status_ap);
+
+        this.status_dp = new cc.LabelTTF.create("dp label", "Arial", 25, cc.size(cc.winSize.width, 80), cc.TEXT_ALIGNMENT_LEFT, cc.VERTICAL_TEXT_ALIGNMENT_TOP);
+		this.status_dp.setAnchorPoint(cc.p(0, 0));
+		this.status_dp.setPosition(cc.p(10, cc.winSize.height - 80 - 60));
+		this.widget_status.addChild(this.status_dp);
+
 
 		// alert
         this.alert_background = new cc.Sprite(res.blank_png);
@@ -459,6 +495,12 @@ var GuiLayer = cc.Layer.extend({
 		var item = Inventory.itemList[idx];
 		var self = this;
 		confirm("정말로 [" + item.name + "] 을 버릴까요?", function() { Inventory.Drop(idx); self.RefreshInven(); }, function() {});
+	},
+	RefreshStatus : function()
+	{
+        this.status_hp.setString("hp : " + Player.hp);
+        this.status_ap.setString("ap : " + Player.ap);
+        this.status_dp.setString("dp : " + Player.dp);
 	},
 	RefreshInven : function()
 	{

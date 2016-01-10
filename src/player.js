@@ -1,6 +1,7 @@
 var Player = 
 {
 	ap : 0,
+	dp : 0,
 	hp : 10,
 	money : 0,
 	pickaxCnt : 10,
