@@ -181,7 +181,6 @@ var MapLayer = cc.Layer.extend({
 	Init : function(stageName)
 	{
         this.stageName = stageName;
-		console.log("seed", stageName);
 		Math.seedrandom(g_randomPrefix+stageName);
 		this.stageEnd = false;
 
